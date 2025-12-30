@@ -7,55 +7,48 @@ class CategoryCard extends StatelessWidget {
 
   const CategoryCard({super.key, required this.part, this.onTap});
 
-  static String _labelForPart(BodyPart body) {
-    switch (body) {
-      case BodyPart.head:
-        return 'Head';
-      case BodyPart.neck:
-        return 'Neck';
-      case BodyPart.chest:
-        return 'Chest';
-      case BodyPart.arms:
-        return 'Arms';
-      case BodyPart.abdomen:
-        return 'Abdomen';
-      case BodyPart.back:
-        return 'Back';
-      case BodyPart.leg:
-        return 'Leg';
-      case BodyPart.skin:
-        return 'Skin';
-      default:
-        return 'General';
+  String _labelForPart(int bodyPartId) {
+    for (var part in BodyPart.values) {
+      if (part.id == bodyPartId) {
+        return part.name;
+      }
     }
+    return 'Unknown';
   }
 
-  static IconData _iconForPart(BodyPart body) {
-    switch (body) {
-      case BodyPart.head:
-        return Icons.headset;
-      case BodyPart.neck:
-        return Icons.swap_vert; // generic
-      case BodyPart.chest:
-        return Icons.favorite;
-      case BodyPart.arms:
-        return Icons.pan_tool;
-      case BodyPart.abdomen:
-        return Icons.local_hospital;
-      case BodyPart.back:
-        return Icons.format_align_center;
-      case BodyPart.leg:
-        return Icons.directions_run;
-      case BodyPart.skin:
-        return Icons.bubble_chart;
-      default:
-        return Icons.device_unknown;
-    }
+  static IconData _iconForPart(BodyPart part) {
+  // We use the string stored in part.icon to decide which IconData to return
+  switch (part.icon) {
+    case 'general':
+      return Icons.accessibility_new;
+    case 'skin':
+      return Icons.texture;
+    case 'head':
+      return Icons.face;
+    case 'chest':
+      return Icons.favorite;
+    case 'leg':
+      return Icons.directions_walk;
+    case 'neck':
+      return Icons.portrait;
+    case 'arms':
+      return Icons.handyman;
+    case 'abdomen':
+      return Icons.center_focus_strong;
+    case 'pelvis':
+      return Icons.wc;
+    case 'back':
+      return Icons.airline_seat_recline_normal;
+    case 'buttocks':
+      return Icons.airline_seat_flat;
+    default:
+      return Icons.help_outline; // Fallback icon
   }
+}
 
   @override
   Widget build(BuildContext context) {
-    final label = _labelForPart(part);
+    final label = _labelForPart(part.id);
     final icon = _iconForPart(part);
 
     return SizedBox(
