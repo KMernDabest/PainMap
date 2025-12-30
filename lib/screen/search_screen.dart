@@ -1,8 +1,102 @@
 import 'package:flutter/material.dart';
 import '../common/widget/category_card.dart';
+import '../models/body_part.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  final TextEditingController _controller = TextEditingController();
+
+  final List<String> _allItems = [
+    'Headache pain',
+    'Migraine headache',
+    'Chest tightness',
+    'Chest pain',
+    'Abdominal pain',
+    'Stomach ache',
+    'Lower back pain',
+    'Back spasm',
+    'Leg cramp',
+    'Knee pain',
+    'Skin rash',
+    'Itchy skin',
+    'Fever',
+    'Cough',
+    'Nausea',
+  ];
+
+  List<String> _filtered = [];
+
+  // Categories to show in the horizontal list
+  final List<BodyPart> _categoryParts = [
+    BodyPart.general,
+    BodyPart.skin,
+    BodyPart.head,
+    BodyPart.chest,
+    BodyPart.abdomen,
+    BodyPart.back,
+    BodyPart.leg,
+    BodyPart.skin,
+    BodyPart.neck,
+    BodyPart.arms,
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _filtered = List.from(_allItems);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _performSearch(String query) {
+    final q = query.trim().toLowerCase();
+    setState(() {
+      if (q.isEmpty) {
+        _filtered = List.from(_allItems);
+      } else {
+        _filtered = _allItems.where((s) => s.toLowerCase().contains(q)).toList();
+      }
+    });
+  }
+
+  String _labelForPart(BodyPart bodyPart) {
+    switch (bodyPart) {
+      case BodyPart.head:
+        return 'Headache';
+      case BodyPart.neck:
+        return 'Neck';
+      case BodyPart.chest:
+        return 'Chest';
+      case BodyPart.arms:
+        return 'Arms';
+      case BodyPart.abdomen:
+        return 'Abdomen';
+      case BodyPart.back:
+        return 'Back';
+      case BodyPart.leg:
+        return 'Leg';
+      case BodyPart.skin:
+        return 'Skin';
+      default:
+        return 'General';
+    }
+  }
+
+  void _onCategoryTap(BodyPart bodyPart) {
+    final label = _labelForPart(bodyPart);
+    _controller.text = label;
+    _performSearch(label);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +105,6 @@ class SearchScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Search Symptoms'),
         centerTitle: true,
-        // backgroundColor: const Color(0xFF2563EB),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -20,10 +113,21 @@ class SearchScreen extends StatelessWidget {
           children: [
             // Search Bar
             TextField(
+              controller: _controller,
+              onChanged: _performSearch,
               decoration: InputDecoration(
                 filled: true,
                 hintText: 'Search symptoms...',
                 prefixIcon: const Icon(Icons.search),
+                suffixIcon: _controller.text.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _controller.clear();
+                          _performSearch('');
+                        },
+                      )
+                    : null,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide.none,
@@ -41,13 +145,20 @@ class SearchScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildCategoryCard('Headache', Icons.headset),
-                _buildCategoryCard('Fever', Icons.thermostat),
-                _buildCategoryCard('Cough', Icons.sick),
-              ],
+
+            // Categories horizontal list
+            SizedBox(
+              height: 100,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: _categoryParts.length,
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                separatorBuilder: (_, __) => const SizedBox(width: 12),
+                itemBuilder: (context, index) {
+                  final part = _categoryParts[index];
+                  return CategoryCard(part: part, onTap: () => _onCategoryTap(part));
+                },
+              ),
             ),
             const SizedBox(height: 20),
 
@@ -60,46 +171,24 @@ class SearchScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 5, // Example item count
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: const Icon(Icons.search),
-                    title: Text('Symptom ${index + 1}'),
-                    subtitle: const Text('Details about the symptom'),
-                    trailing: const Text('3:32 PM'),
-                    onTap: () {
-                      // Navigate to symptom details
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
-  Widget _buildCategoryCard(String title, IconData icon) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Icon(icon, size: 32, color: const Color(0xFF2563EB)),
-            const SizedBox(height: 8),
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
+            Expanded(
+              child: _filtered.isEmpty
+                  ? const Center(child: Text('No results'))
+                  : ListView.builder(
+                      itemCount: _filtered.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: const Icon(Icons.search),
+                          title: Text(_filtered[index]),
+                          subtitle: const Text('Tap for more details'),
+                          trailing: const Text('3:32 PM'),
+                          onTap: () {
+                            // TODO: navigate to symptom detail
+                          },
+                        );
+                      },
+                    ),
             ),
           ],
         ),
