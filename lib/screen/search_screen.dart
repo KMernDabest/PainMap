@@ -32,19 +32,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   List<String> _filtered = [];
 
-  // Categories to show in the horizontal list
-  final List<BodyPart> _categoryParts = [
-    BodyPart.general,
-    BodyPart.skin,
-    BodyPart.head,
-    BodyPart.chest,
-    BodyPart.abdomen,
-    BodyPart.back,
-    BodyPart.leg,
-    BodyPart.skin,
-    BodyPart.neck,
-    BodyPart.arms,
-  ];
+  
+  
 
   @override
   void initState() {
@@ -69,31 +58,17 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
-  String _labelForPart(BodyPart bodyPart) {
-    switch (bodyPart) {
-      case BodyPart.head:
-        return 'Headache';
-      case BodyPart.neck:
-        return 'Neck';
-      case BodyPart.chest:
-        return 'Chest';
-      case BodyPart.arms:
-        return 'Arms';
-      case BodyPart.abdomen:
-        return 'Abdomen';
-      case BodyPart.back:
-        return 'Back';
-      case BodyPart.leg:
-        return 'Leg';
-      case BodyPart.skin:
-        return 'Skin';
-      default:
-        return 'General';
+  String _labelForPart(int partId) {
+    for (var part in BodyPart.values) {
+      if (part.id == partId) {
+        return part.name;
+      }
     }
+    return '';
   }
 
   void _onCategoryTap(BodyPart bodyPart) {
-    final label = _labelForPart(bodyPart);
+    final label = _labelForPart(bodyPart.id);
     _controller.text = label;
     _performSearch(label);
   }
@@ -151,11 +126,11 @@ class _SearchScreenState extends State<SearchScreen> {
               height: 100,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                itemCount: _categoryParts.length,
+                itemCount: BodyPart.values.length,
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 separatorBuilder: (_, __) => const SizedBox(width: 12),
                 itemBuilder: (context, index) {
-                  final part = _categoryParts[index];
+                  final part = BodyPart.values[index];
                   return CategoryCard(part: part, onTap: () => _onCategoryTap(part));
                 },
               ),
