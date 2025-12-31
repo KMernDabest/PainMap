@@ -6,49 +6,19 @@ enum Level{
   severe 
 }
 
-class BodyPart {
+enum BodyPart {
+  head(1, 'head', 'face'),
+  leftArm(2, 'left arm', 'handyman'),
+  rightArm(3, 'right arm', 'handyman'),
+  abdomen(4, 'abdomen', 'center_focus'),
+  leftLeg(5, 'left leg', 'directions_walk'),
+  rightLeg(6, 'right leg', 'directions_walk');
+
   final int id;
   final String name;
-  final String? icon;
+  final String icon;
 
-  BodyPart({
-    required this.id,
-    required this.name,
-    this.icon,
-  });
-
-  factory BodyPart.fromJson(Map<String, dynamic> json) {
-    return BodyPart(
-      id: json['id'] as int,
-      name: json['name'] as String,
-      icon: json['icon'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'icon': icon,
-  };
-
-  @override
-  String toString() => 'BodyPart(id: $id, name: $name, icon: $icon)';
-
-  //Mock Data
-  static List<BodyPart> get values => [
-    BodyPart(id: 1, name: "general", icon: "accessibility"),
-    BodyPart(id: 2, name: "skin", icon: "texture"),
-    BodyPart(id: 3, name: "head", icon: "face"),
-    BodyPart(id: 4, name: "neck", icon: "neck_health"),
-    BodyPart(id: 5, name: "chest", icon: "favorite"),
-    BodyPart(id: 6, name: "arms", icon: "handyman"),
-    BodyPart(id: 7, name: "abdomen", icon: "center_focus"),
-    BodyPart(id: 8, name: "pelvis", icon: "wc"),
-    BodyPart(id: 9, name: "back", icon: "airline_seat_recline"),
-    BodyPart(id: 10, name: "buttocks", icon:"airline_seat_flat"),
-    BodyPart(id: 11, name:"leg",icon:"directions_walk")
-  ];
-
+  const BodyPart(this.id, this.name, this.icon);
 }
 
 // /// Body parts enumeration

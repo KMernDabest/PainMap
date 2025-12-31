@@ -26,7 +26,9 @@ class History {
       id: json['id'] as String,
       symptomName: Symptom.fromJson(json['symptomName'] as Map<String, dynamic>),
       disease: Disease.fromJson(json['disease'] as Map<String, dynamic>),
-      bodyPart: BodyPart.fromJson(json['bodyPart'] as Map<String, dynamic>),
+      bodyPart: BodyPart.values.firstWhere(
+        (bp) => bp.id == json['bodyPartId'] as int,
+      ),
       dateLogged: DateTime.parse(json['dateLogged'] as String),
       level: json['level'] as int?,
       notes: json['notes'] as String?,
@@ -36,7 +38,7 @@ class History {
   Map<String, dynamic> toJson() => {
     'id': id,
     'symptomName': symptomName,
-    'bodyPart': bodyPart.toJson(),
+    'bodyPartId': bodyPart.id,
     'dateLogged': dateLogged.toIso8601String(),
     'level': level,
     'notes': notes,

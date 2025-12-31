@@ -19,14 +19,16 @@ class Symptom {
     return Symptom(
       id: json['id'] as int,
       name: json['name'] as String,
-      bodyPart: BodyPart.fromJson(json['bodyPart'] as Map<String, dynamic>),
+      bodyPart: BodyPart.values.firstWhere(
+        (bp) => bp.id == json['bodyPartId'] as int,
+      ),
     );
   }
 
   Map<String, dynamic> toJson() => {
     'id': id,
     'name': name,
-    'bodyPart': bodyPart.toJson(),
+    'bodyPartId': bodyPart.id,
   };
 
 
