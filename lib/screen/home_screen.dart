@@ -120,7 +120,10 @@ class _HomeScreenState extends State<HomeScreen> {
             width: double.infinity,
             padding: const EdgeInsets.fromLTRB(16, 48, 16, 24),
             decoration: const BoxDecoration(
-              color: Color(0xFF2563EB),
+              image: DecorationImage(
+                image: AssetImage('assets/images/PainMap-Banner.png'),
+                fit: BoxFit.cover,
+              ),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(24),
                 bottomRight: Radius.circular(24),
