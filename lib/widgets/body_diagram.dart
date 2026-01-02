@@ -16,6 +16,7 @@ class BodyDiagram extends StatefulWidget {
 
 class _BodyDiagramState extends State<BodyDiagram> {
   BodyParts bodyParts = const BodyParts();
+  BodySide currentSide = BodySide.front;
 
   // These parts are the id mappings to that part of the body and it's from the body part selector library
   app.BodyPart? _mapToAppBodyPart(BodyParts parts) {
@@ -47,26 +48,43 @@ class _BodyDiagramState extends State<BodyDiagram> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.7,
-        child: BodyPartSelector(
-          bodyParts: bodyParts,
-          side: BodySide.front,
-          selectedColor: Colors.grey[300]!,
-          unselectedColor: Colors.grey[200]!,
-          selectedOutlineColor: Colors.grey[400]!,
-          unselectedOutlineColor: Colors.grey[350]!,
-          onSelectionUpdated: (selection) {
-            final tappedPart = _mapToAppBodyPart(selection);
-            if (tappedPart != null) {
-              widget.onBodyPartTapped?.call(tappedPart);
-            }
-            // Reset selection immediately to allow repeated taps
-            setState(() {
-              bodyParts = const BodyParts();
-            });
-          },
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.5,
+            child: BodyPartSelector(
+              bodyParts: bodyParts,
+              side: currentSide,
+              selectedColor: Colors.grey[300]!,
+              unselectedColor: Colors.grey[200]!,
+              selectedOutlineColor: Colors.grey[400]!,
+              unselectedOutlineColor: Colors.grey[350]!,
+              onSelectionUpdated: (selection) {
+                final tappedPart = _mapToAppBodyPart(selection);
+                if (tappedPart != null) {
+                  widget.onBodyPartTapped?.call(tappedPart);
+                }
+                // Reset selection immediately to allow repeated taps
+                setState(() {
+                  bodyParts = const BodyParts();
+                });
+              },
+            ),
+          ),
+          const SizedBox(height: 32),
+          ElevatedButton.icon(
+            onPressed: () {
+              setState(() {
+                currentSide = currentSide == BodySide.front 
+                    ? BodySide.back 
+                    : BodySide.front;
+              });
+            },
+            icon: const Icon(Icons.swap_horiz),
+            label: Text(currentSide == BodySide.front ? 'View Back' : 'View Front'),
+          ),
+        ],
       ),
     );
   }
