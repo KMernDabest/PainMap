@@ -15,71 +15,125 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   void _showBodyPartModal(BodyPart bodyPart) {
+    double painLevel = 1.0;
+    
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
+      builder: (context) => StatefulBuilder(
+        builder: (context, setModalState) {
+          return Container(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  Icons.person_outline,
-                  size: 32,
-                  color: const Color(0xFF2563EB),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.person_outline,
+                      size: 32,
+                      color: const Color(0xFF2563EB),
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      bodyPart.name.toUpperCase(),
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 12),
-                Text(
-                  bodyPart.name.toUpperCase(),
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                const SizedBox(height: 24),
+                const Text(
+                  'Pain Level',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      painLevel.toInt().toString(),
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF2563EB),
+                      ),
+                    ),
+                    const Text(
+                      '/ 10',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+                Slider(
+                  value: painLevel,
+                  min: 1,
+                  max: 10,
+                  divisions: 9,
+                  activeColor: const Color(0xFF2563EB),
+                  label: painLevel.toInt().toString(),
+                  onChanged: (value) {
+                    setModalState(() {
+                      painLevel = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    final int painLevelInt = painLevel.toInt();
+                    // TODO: Implement disease matching with painLevelInt and bodyPart
+                    // Use painLevelInt to match against Disease.level field
+                    // Example: diseases.where((d) => d.level == painLevelInt && d.bodyPart == bodyPart)
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF2563EB),
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    'Match to Disease',
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const SearchScreen()),
+                    );
+                  },
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                    side: const BorderSide(color: Color(0xFF2563EB)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    'Search Symptoms',
+                    style: TextStyle(fontSize: 16, color: Color(0xFF2563EB)),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-                // TODO: Navigate to symptom selection or logging
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2563EB),
-                minimumSize: const Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: const Text(
-                'Log Symptom',
-                style: TextStyle(fontSize: 16, color: Colors.white),
-              ),
-            ),
-            const SizedBox(height: 12),
-            OutlinedButton(
-              onPressed: () {
-                Navigator.pop(context);
-                // TODO: Navigate to history for this body part
-              },
-              style: OutlinedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 50),
-                side: const BorderSide(color: Color(0xFF2563EB)),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: const Text(
-                'View History',
-                style: TextStyle(fontSize: 16, color: Color(0xFF2563EB)),
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -120,7 +174,10 @@ class _HomeScreenState extends State<HomeScreen> {
             width: double.infinity,
             padding: const EdgeInsets.fromLTRB(16, 48, 16, 24),
             decoration: const BoxDecoration(
-              color: Color(0xFF2563EB),
+              image: DecorationImage(
+                image: AssetImage('assets/images/PainMap-Banner.png'),
+                fit: BoxFit.cover,
+              ),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(24),
                 bottomRight: Radius.circular(24),
