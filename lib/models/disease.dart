@@ -18,6 +18,7 @@ class Disease {
       id: json['id'] as int,
       name: json['name'] as String,
       description: json['description'] as String?,
+      level: json['level'] as int?,
     );
   }
 
@@ -26,6 +27,7 @@ class Disease {
       'id': id,
       'name': name,
       'description': description,
+      'level': level,
     };
   }
 
