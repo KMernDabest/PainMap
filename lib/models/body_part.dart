@@ -12,7 +12,8 @@ enum BodyPart {
   rightArm(3, 'right arm', 'handyman'),
   abdomen(4, 'abdomen', 'center_focus'),
   leftLeg(5, 'left leg', 'directions_walk'),
-  rightLeg(6, 'right leg', 'directions_walk');
+  rightLeg(6, 'right leg', 'directions_walk'),
+  back(7, 'back', 'accessibility_new');
 
   final int id;
   final String name;
