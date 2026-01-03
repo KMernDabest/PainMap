@@ -1,0 +1,65 @@
+{
+  "generatedAt": "2026-01-03T00:00:00Z",
+  "source": "mock",
+  "bodyParts": [
+    {
+      "id": 1,
+      "name": "Head",
+      "icon": "face",
+      "examples": ["Headache", "Migraine", "Dizziness"],
+      "common_symptoms": ["Throbbing pain", "Light sensitivity", "Nausea"]
+    },
+    {
+      "id": 2,
+      "name": "Left Arm",
+      "icon": "handyman",
+      "examples": ["Arm ache", "Tingling", "Numbness"],
+      "common_symptoms": ["Muscle pain", "Weakness", "Pins and needles"]
+    },
+    {
+      "id": 3,
+      "name": "Right Arm",
+      "icon": "handyman",
+      "examples": ["Arm pain", "Swelling", "Limited range"],
+      "common_symptoms": ["Muscle strain", "Numbness", "Reduced grip"]
+    },
+    {
+      "id": 4,
+      "name": "Abdomen",
+      "icon": "center_focus",
+      "examples": ["Stomach ache", "Cramps", "Bloating"],
+      "common_symptoms": ["Cramping", "Tenderness", "Nausea"]
+    },
+    {
+      "id": 5,
+      "name": "Left Leg",
+      "icon": "directions_walk",
+      "examples": ["Knee pain", "Leg cramp", "Shin pain"],
+      "common_symptoms": ["Sharp pain", "Difficulty walking", "Swelling"]
+    },
+    {
+      "id": 6,
+      "name": "Right Leg",
+      "icon": "directions_walk",
+      "examples": ["Calf cramp", "Ankle pain", "Heel pain"],
+      "common_symptoms": ["Stiffness", "Weakness", "Bruising"]
+    },
+    {
+      "id": 7,
+      "name": "Back",
+      "icon": "accessibility_new",
+      "examples": ["Lower back pain", "Upper back stiffness", "Muscle spasm"],
+      "common_symptoms": ["Dull ache", "Reduced mobility", "Tenderness"]
+    },
+    {
+        "id": 8,
+        "name": "Chest",
+        "icon": "monitor_heart",
+        "examples": ["Chest tightness", "Sharp chest pain", "Shortness of breath"],
+        "common_symptoms": ["Pressure", "Burning sensation", "Radiating pain"]
+    },
+    {
+        
+    }
+  ]
+}

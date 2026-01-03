@@ -115,9 +115,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => const SearchScreen()),
+                      MaterialPageRoute(builder: (_) => SearchScreen(initialQuery: bodyPart.name)),
                     );
                   },
+
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
                     side: const BorderSide(color: Color(0xFF2563EB)),
@@ -128,6 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: const Text(
                     'Search Symptoms',
                     style: TextStyle(fontSize: 16, color: Color(0xFF2563EB)),
+
                   ),
                 ),
               ],
