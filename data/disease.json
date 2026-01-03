@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "name": "Epilepsy",
+        "description": "A neurological disorder marked by sudden recurrent episodes of sensory disturbance, loss of consciousness, or convulsions, associated with abnormal electrical activity in the brain.",
+        "level": 4
+    },
+    {
+        "id": 2,
+        "name": "Hypoglycemia",
+        "description": "A condition characterized by an abnormally low level of blood sugar (glucose), which is the body's main energy source.",
+        "level": 2
+    },
+    {
+        "id": 3,
+        "name": "Sleep Disorders",
+        "description": "A group of conditions that affect the ability to sleep well on a regular basis, including insomnia, sleep apnea, and narcolepsy.",
+        "level": 3
+    }
+]

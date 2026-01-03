@@ -34,11 +34,4 @@ class Disease {
   @override
   String toString() => 'Disease(id: $id, name: $name, description: $description)';
 
-  int getLevel() {
-    if(level != null){
-      return level!;
-    }
-
-    return 0;
-  }
 }

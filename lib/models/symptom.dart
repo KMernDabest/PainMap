@@ -19,6 +19,9 @@ class Symptom {
     return Symptom(
       id: json['id'] as int,
       name: json['name'] as String,
+      // diseases: (json['diseases'] as List<dynamic>?)
+      //     ?.map((d) => Disease.fromJson(d as Map<String, dynamic>))
+      //     .toList() ?? [],
       bodyPart: BodyPart.values.firstWhere(
         (bp) => bp.id == json['bodyPartId'] as int,
       ),
@@ -28,8 +31,8 @@ class Symptom {
   Map<String, dynamic> toJson() => {
     'id': id,
     'name': name,
+    // "diseases": diseases.map((d) => d.toJson()).toList(),
     'bodyPartId': bodyPart.id,
   };
-
 
 }

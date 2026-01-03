@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import '../common/widget/category_card.dart';
+import '../widgets/category_card.dart';
 import '../models/body_part.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final String? initialQuery;
+  const SearchScreen({super.key, this.initialQuery});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
-}
+} 
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _controller = TextEditingController();
@@ -39,6 +40,13 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     super.initState();
     _filtered = List.from(_allItems);
+
+    // If an initial query was provided (for example from HomeScreen),
+    // pre-fill the search field and perform the filtered search.
+    if (widget.initialQuery != null && widget.initialQuery!.isNotEmpty) {
+      _controller.text = widget.initialQuery!;
+      _performSearch(widget.initialQuery!);
+    }
   }
 
   @override
@@ -119,7 +127,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 15),
 
             // Categories horizontal list
             SizedBox(
@@ -128,12 +136,17 @@ class _SearchScreenState extends State<SearchScreen> {
                 scrollDirection: Axis.horizontal,
                 itemCount: BodyPart.values.length,
                 padding: const EdgeInsets.symmetric(horizontal: 4),
-                separatorBuilder: (_, __) => const SizedBox(width: 12),
+                separatorBuilder: (_, __) => const SizedBox(width: 15),
                 itemBuilder: (context, index) {
                   final part = BodyPart.values[index];
-                  return CategoryCard(part: part, onTap: () => _onCategoryTap(part));
+                  return CategoryCard(
+                    part: part,
+                    onTap: () => _onCategoryTap(part),
+                    // color: isSelected ? Colors.blue.shade50 : Colors.white,
+                    // textColor: isSelected ? Colors.white : Colors.black,
+                  );
                 },
-              ),
+              )
             ),
             const SizedBox(height: 20),
 

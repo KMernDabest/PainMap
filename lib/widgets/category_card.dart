@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/body_part.dart';
+import '../models/body_part.dart';
 
 class CategoryCard extends StatelessWidget {
   final BodyPart part;
@@ -16,33 +16,50 @@ class CategoryCard extends StatelessWidget {
     return 'Unknown';
   }
 
-  static IconData _iconForPart(BodyPart part) {
-  // We use the string stored in part.icon to decide which IconData to return
+//   static IconData _iconForPart(BodyPart part) {
+//   // We use the string stored in part.icon to decide which IconData to return
+//   switch (part.icon) {
+//     case 'general':
+//       return Icons.accessibility_new;
+//     case 'skin':
+//       return Icons.texture;
+//     case 'head':
+//       return Icons.face;
+//     case 'chest':
+//       return Icons.favorite;
+//     case 'leg':
+//       return Icons.directions_walk;
+//     case 'neck':
+//       return Icons.portrait;
+//     case 'arms':
+//       return Icons.handyman;
+//     case 'abdomen':
+//       return Icons.center_focus_strong;
+//     case 'pelvis':
+//       return Icons.wc;
+//     case 'back':
+//       return Icons.airline_seat_recline_normal;
+//     case 'buttocks':
+//       return Icons.airline_seat_flat;
+//     default:
+//       return Icons.help_outline; // Fallback icon
+//   }
+// }
+
+static IconData _iconForPart(BodyPart part) {
   switch (part.icon) {
-    case 'general':
-      return Icons.accessibility_new;
-    case 'skin':
-      return Icons.texture;
-    case 'head':
+    case 'face':
       return Icons.face;
-    case 'chest':
-      return Icons.favorite;
-    case 'leg':
-      return Icons.directions_walk;
-    case 'neck':
-      return Icons.portrait;
-    case 'arms':
+    case 'handyman':
       return Icons.handyman;
-    case 'abdomen':
+    case 'center_focus':
       return Icons.center_focus_strong;
-    case 'pelvis':
-      return Icons.wc;
-    case 'back':
-      return Icons.airline_seat_recline_normal;
-    case 'buttocks':
-      return Icons.airline_seat_flat;
+    case 'directions_walk':
+      return Icons.directions_walk;
+    case 'accessibility_new':
+      return Icons.accessibility_new;
     default:
-      return Icons.help_outline; // Fallback icon
+      return Icons.help_outline;
   }
 }
 
