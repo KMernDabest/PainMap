@@ -1,27 +1,15 @@
-[
-    {
-        "id" : 1,
-        "name" : "absence seizure",
-        "disease" : [
-            {
-                "id" : 1,
-                "name" : "Epilepsy",
-                "description" : "A neurological disorder marked by sudden recurrent episodes of sensory disturbance, loss of consciousness, or convulsions, associated with abnormal electrical activity in the brain.",
-                "level" : 4
-            },
-            {
-                "id" : 2,
-                "name" : "Hypoglycemia",
-                "description" : "A condition characterized by an abnormally low level of blood sugar (glucose), which is the body's main energy source.",
-                "level" : 2
-            },
-            {
-                "id" : 3,
-                "name" : "Sleep Disorders",
-                "description" : "A group of conditions that affect the ability to sleep well on a regular basis, including insomnia, sleep apnea, and narcolepsy.",
-                "level" : 3
-            }
-        ],
-        "bodyPartId" : 1
-    }
-]
+
+{
+  "symptoms": [
+    {"id": 1,"name": "Headache", "bodyPartId": 1, "diseaseId" : [1, 2, 3]},
+    {"id": 2, "name": "Migraine", "bodyPartId": 1, "diseaseId" : [2]},
+    {"id": 3, "name": "Dizziness", "bodyPartId": 1, "diseaseId" : [1]},
+    {"id": 4, "name": "Stomach ache", "bodyPartId": 4, "diseaseId" : [3]},
+    {"id": 5, "name": "Abdominal cramps", "bodyPartId": 4, "diseaseId" : [3]},
+    {"id": 6, "name": "Lower back pain", "bodyPartId": 7, "diseaseId" : [4]},
+    {"id": 7, "name": "Back spasm", "bodyPartId": 7, "diseaseId" : [4]},
+    {"id": 8, "name": "Knee pain", "bodyPartId": 5, "diseaseId" : [5]},
+    {"id": 9, "name": "Leg cramp", "bodyPartId": 5, "diseaseId" : [5]},
+    {"id": 10, "name": "Skin rash", "bodyPartId": 1, "diseaseId" : [1, 5]}
+  ]
+}

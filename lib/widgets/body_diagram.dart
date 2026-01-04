@@ -68,43 +68,45 @@ class _BodyDiagramState extends State<BodyDiagram> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.5,
-            child: BodyPartSelector(
-              bodyParts: bodyParts,
-              side: currentSide,
-              selectedColor: Colors.grey[300]!,
-              unselectedColor: Colors.grey[200]!,
-              selectedOutlineColor: Colors.grey[400]!,
-              unselectedOutlineColor: Colors.grey[350]!,
-              onSelectionUpdated: (selection) {
-                final tappedPart = _mapToAppBodyPart(selection);
-                if (tappedPart != null) {
-                  widget.onBodyPartTapped?.call(tappedPart);
-                }
-                // Reset selection immediately to allow repeated taps
+       child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.5,
+              child: BodyPartSelector(
+                bodyParts: bodyParts,
+                side: currentSide,
+                selectedColor: Colors.grey[300]!,
+                unselectedColor: Colors.grey[200]!,
+                selectedOutlineColor: Colors.grey[400]!,
+                unselectedOutlineColor: Colors.grey[350]!,
+                onSelectionUpdated: (selection) {
+                  final tappedPart = _mapToAppBodyPart(selection);
+                  if (tappedPart != null) {
+                    widget.onBodyPartTapped?.call(tappedPart);
+                  }
+                  // Reset selection immediately to allow repeated taps
+                  setState(() {
+                    bodyParts = const BodyParts();
+                  });
+                },
+              ),
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton.icon(
+              onPressed: () {
                 setState(() {
-                  bodyParts = const BodyParts();
+                  currentSide = currentSide == BodySide.front 
+                      ? BodySide.back 
+                      : BodySide.front;
                 });
               },
+              icon: const Icon(Icons.swap_horiz),
+              label: Text(currentSide == BodySide.front ? 'View Back' : 'View Front'),
             ),
-          ),
-          const SizedBox(height: 32),
-          ElevatedButton.icon(
-            onPressed: () {
-              setState(() {
-                currentSide = currentSide == BodySide.front 
-                    ? BodySide.back 
-                    : BodySide.front;
-              });
-            },
-            icon: const Icon(Icons.swap_horiz),
-            label: Text(currentSide == BodySide.front ? 'View Back' : 'View Front'),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
