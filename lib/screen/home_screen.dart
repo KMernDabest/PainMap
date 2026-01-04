@@ -3,8 +3,8 @@ import 'package:painmap/models/body_part.dart';
 import 'package:painmap/models/disease.dart';
 import 'package:painmap/services/symptom_matcher_service.dart';
 import 'package:painmap/widgets/body_diagram.dart';
+import 'package:painmap/widgets/bottom_navigation.dart';
 import './search_screen.dart';
-import './history_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -231,23 +231,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
-                OutlinedButton.icon(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    // TODO: Navigate to more info or external resource
-                  },
-                  icon: const Icon(Icons.open_in_new),
-                  label: const Text('Learn More'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: const Color(0xFF2563EB),
-                    minimumSize: const Size(double.infinity, 50),
-                    side: const BorderSide(color: Color(0xFF2563EB)),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                ),
                 const SizedBox(height: 32),
               ],
             ),
@@ -436,31 +419,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _onTabTapped(int index) {
-    if (index == _currentIndex) return;
-
-    setState(() {
-      _currentIndex = index;
-    });
-
-    Widget target;
-    switch (index) {
-      case 1:
-        target = const SearchScreen();
-        break;
-      case 2:
-        target = const HistoryScreen();
-        break;
-      default:
-        return; // Stay on home screen
-    }
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => target),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -558,26 +516,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
       // ✅ Bottom Navigation
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: AppBottomNavigation(
         currentIndex: _currentIndex,
-        onTap: _onTabTapped,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color(0xFF2563EB),
-        unselectedItemColor: Colors.grey,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.accessibility_new),
-            label: 'Body',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'History',
-          ),
-        ],
       ),
     );
   }
