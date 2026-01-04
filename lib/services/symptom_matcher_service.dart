@@ -1,18 +1,25 @@
-import 'package:flutter/widgets.dart';
+import '../models/disease.dart';
 
-class SymptomMatcher extends StatefulWidget {
-  const SymptomMatcher({super.key});
+class SymptomMatcherService {
+  /// Match disease by body part and pain level
+  Disease? matchDisease(int bodyPartId, int painLevel) {
+    try {
+      return Disease.diseaseList.firstWhere(
+        (disease) =>
+            disease.bodyPartId == bodyPartId &&
+            disease.painLevel == painLevel,
+      );
+    } catch (e) {
+      return null;
+    }
+  }
 
-  @override
-  State<SymptomMatcher> createState() => _SymptomMatcherState();
-}
-
-class _SymptomMatcherState extends State<SymptomMatcher> {
-  
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
+  /// Get all diseases for a specific body part and pain level
+  List<Disease> getAllMatchingDiseases(int bodyPartId, int painLevel) {
+    return Disease.diseaseList
+        .where((disease) =>
+            disease.bodyPartId == bodyPartId &&
+            disease.painLevel == painLevel)
+        .toList();
   }
 }

@@ -4,7 +4,8 @@ import 'package:painmap/models/history.dart';
 import 'package:painmap/models/body_part.dart';
 import 'package:painmap/models/disease.dart';
 import 'package:painmap/models/symptom.dart';
-
+import './home_screen.dart';
+import './search_screen.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -14,6 +15,7 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
+  int _currentIndex = 2; // History screen is at index 2
   String _filterLevel = 'All';
 
   // Mock data - Replace with actual API call or database query
@@ -26,7 +28,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         bodyPart: BodyPart.head,
       ),
       disease: Disease(
-        id: 1,
+        painLevel: 1,
         name: 'Migraine',
         bodyPartId: 1,
         description: 'Severe recurring headache',
@@ -44,7 +46,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         bodyPart: BodyPart.back,
       ),
       disease: Disease(
-        id: 2,
+        painLevel: 2,
         name: 'Muscle Strain',
         bodyPartId: 7,
         description: 'Muscle overuse injury',
@@ -62,7 +64,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         bodyPart: BodyPart.leftLeg,
       ),
       disease: Disease(
-        id: 3,
+        painLevel: 3,
         name: 'Joint Inflammation',
         bodyPartId: 5,
       ),
@@ -105,6 +107,50 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          if (index == _currentIndex) return;
+          
+          setState(() {
+            _currentIndex = index;
+          });
+
+          Widget target;
+          switch (index) {
+            case 0:
+              target = const HomeScreen();
+              break;
+            case 1:
+              target = const SearchScreen();
+              break;
+            default:
+              return;
+          }
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => target),
+          );
+        },
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: const Color(0xFF2563EB),
+        unselectedItemColor: Colors.grey,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.accessibility_new),
+            label: 'Body',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'History',
+          ),
+        ],
       ),
     );
   }

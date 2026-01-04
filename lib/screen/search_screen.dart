@@ -4,6 +4,8 @@ import 'package:painmap/widgets/symptom_list_item.dart';
 import '../models/body_part.dart';
 import '../models/symptom.dart';
 import '../widgets/category_card.dart';
+import './home_screen.dart';
+import './history_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   final String? initialQuery;
@@ -15,6 +17,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _controller = TextEditingController();
+  int _currentIndex = 1; // Search screen is at index 1
 
   BodyPart? _selectedPart;
   bool _isLoading = true;
@@ -208,6 +211,50 @@ void _onCategoryTap(BodyPart bodyPart) {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          if (index == _currentIndex) return;
+          
+          setState(() {
+            _currentIndex = index;
+          });
+
+          Widget target;
+          switch (index) {
+            case 0:
+              target = const HomeScreen();
+              break;
+            case 2:
+              target = const HistoryScreen();
+              break;
+            default:
+              return;
+          }
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => target),
+          );
+        },
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: const Color(0xFF2563EB),
+        unselectedItemColor: Colors.grey,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.accessibility_new),
+            label: 'Body',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'History',
+          ),
+        ],
       ),
     );
   }

@@ -1,62 +1,496 @@
-[
+{
+  "generatedAt": "2026-01-04T20:40:08.181888",
+  "source": "app",
+  "diseases": [
     {
-        "id": 1,
-        "name": "Epilepsy",
-        "description": "A neurological disorder marked by sudden recurrent episodes of sensory disturbance, loss of consciousness, or convulsions, associated with abnormal electrical activity in the brain.",
-        "level": 4
+      "painLevel": 1,
+      "name": "Mild Sinus Pressure",
+      "bodyPartId": 1,
+      "description": "Minor sinus congestion causing minimal discomfort, usually relieved by over-the-counter decongestants.",
+      "symptomDetails": "Slight pressure around eyes and forehead, minor facial tenderness"
     },
     {
-        "id": 2,
-        "name": "Hypoglycemia",
-        "description": "A condition characterized by an abnormally low level of blood sugar (glucose), which is the body's main energy source.",
-        "level": 2
+      "painLevel": 2,
+      "name": "Eye Strain",
+      "bodyPartId": 1,
+      "description": "Caused by prolonged screen time or reading. Rest and proper lighting usually provide relief.",
+      "symptomDetails": "Tired eyes, slight headache behind eyes, difficulty focusing"
     },
     {
-        "id": 3,
-        "name": "Sleep Disorders",
-        "description": "A group of conditions that affect the ability to sleep well on a regular basis, including insomnia, sleep apnea, and narcolepsy.",
-        "level": 3
+      "painLevel": 3,
+      "name": "Tension Headache",
+      "bodyPartId": 1,
+      "description": "The most common type of headache causing mild to moderate pain and a feeling of tightness or pressure around the head. Often caused by stress, anxiety, poor posture, or muscle tension.",
+      "symptomDetails": "Dull, aching head pain, sensation of tightness or pressure across the forehead or on the sides and back of the head, tenderness on the scalp, neck and shoulder muscles"
     },
     {
-        "id": 4,
-        "name": "Muscle Strain",
-        "description": "An injury to a muscle or tendon resulting from overstretching or overuse, leading to pain and limited movement.",
-        "level": 2
+      "painLevel": 4,
+      "name": "Sinus Infection",
+      "bodyPartId": 1,
+      "description": "Inflammation of the sinuses causing significant facial pain and pressure, often requiring antibiotics if bacterial.",
+      "symptomDetails": "Facial pain and pressure, thick nasal discharge, reduced sense of smell, cough, fever"
     },
     {
-        "id": 5,
-        "name": "Arthritis",
-        "description": "A group of conditions involving inflammation of one or more joints, causing pain and stiffness that can worsen with age.",
-        "level": 3
+      "painLevel": 5,
+      "name": "Migraine Headache",
+      "bodyPartId": 1,
+      "description": "Severe headache disorder causing intense throbbing pain, often accompanied by nausea and extreme sensitivity to stimuli. Can last hours to days and significantly impacts daily activities.",
+      "symptomDetails": "Throbbing, pulsating pain usually on one side, nausea and vomiting, sensitivity to sound or light, visual disturbances (aura), numbness or tingling"
     },
     {
-        "id": 6,
-        "name": "Dermatitis",
-        "description": "A general term for inflammation of the skin, which can result from allergies or irritants.",
-        "level": 1
+      "painLevel": 6,
+      "name": "Severe Migraine with Aura",
+      "bodyPartId": 1,
+      "description": "Advanced migraine with neurological symptoms preceding the headache. Requires prescription medication and often needs darkened, quiet environment.",
+      "symptomDetails": "Intense throbbing pain, visual disturbances, temporary vision loss, severe nausea, vomiting, extreme light and sound sensitivity"
     },
     {
-        "id": 7,
-        "name": "Gastroenteritis",
-        "description": "An intestinal infection marked by diarrhea, cramps, nausea, vomiting, and fever, often caused by bacteria or viruses.",
-        "level": 2
+      "painLevel": 7,
+      "name": "Cluster Headache",
+      "bodyPartId": 1,
+      "description": "Extremely painful headache occurring in clusters or cycles. Pain is focused around one eye and is often described as the worst pain imaginable.",
+      "symptomDetails": "Severe burning or piercing pain around one eye, eye redness and tearing, nasal congestion, restlessness, agitation"
     },
     {
-        "id": 8,
-        "name": "Sciatica",
-        "description": "Pain affecting the back, hip, and outer side of the leg, caused by compression of a spinal nerve root in the lower back.",
-        "level": 3
+      "painLevel": 8,
+      "name": "Acute Temporal Arteritis",
+      "bodyPartId": 1,
+      "description": "Inflammation of temporal arteries causing severe headache. Medical emergency requiring immediate treatment to prevent vision loss.",
+      "symptomDetails": "Severe throbbing temple pain, scalp tenderness, jaw pain when chewing, vision problems, fever, fatigue"
     },
     {
-        "id": 9,
-        "name": "Tendonitis",
-        "description": "Inflammation or irritation of a tendon, often caused by repetitive motion or overuse.",
-        "level": 2
+      "painLevel": 9,
+      "name": "Severe Meningitis",
+      "bodyPartId": 1,
+      "description": "Life-threatening inflammation of brain and spinal cord membranes. Requires immediate emergency medical attention and hospitalization.",
+      "symptomDetails": "Extreme headache, severe neck stiffness, high fever, confusion, sensitivity to light, vomiting, altered mental state"
     },
     {
-        "id": 10,
-        "name": "Fibromyalgia",
-        "description": "A chronic condition characterized by widespread musculoskeletal pain, fatigue, and tenderness in localized areas.",
-        "level": 4
+      "painLevel": 10,
+      "name": "Brain Hemorrhage",
+      "bodyPartId": 1,
+      "description": "Medical emergency involving bleeding in the brain. The worst headache of one's life requiring immediate emergency intervention. Can be fatal without rapid treatment.",
+      "symptomDetails": "Sudden, severe thunderclap headache, loss of consciousness, seizures, severe confusion, weakness or numbness, difficulty speaking"
+    },
+    {
+      "painLevel": 1,
+      "name": "Minor Muscle Soreness",
+      "bodyPartId": 2,
+      "description": "Normal delayed-onset muscle soreness (DOMS) from physical activity. Usually resolves with rest in 24-48 hours.",
+      "symptomDetails": "Mild aching in arm muscles, slight stiffness after exercise"
+    },
+    {
+      "painLevel": 2,
+      "name": "Mild Tendonitis",
+      "bodyPartId": 2,
+      "description": "Early-stage inflammation of tendons causing mild discomfort. Rest, ice, and anti-inflammatory medication usually sufficient.",
+      "symptomDetails": "Slight pain when moving arm, minor swelling, tenderness to touch"
+    },
+    {
+      "painLevel": 3,
+      "name": "Cubital Tunnel Syndrome (mild)",
+      "bodyPartId": 2,
+      "description": "Compression of ulnar nerve at elbow causing nerve symptoms. Often responds to activity modification and splinting.",
+      "symptomDetails": "Tingling in ring and little fingers, occasional numbness, mild elbow discomfort"
+    },
+    {
+      "painLevel": 4,
+      "name": "Moderate Bursitis",
+      "bodyPartId": 2,
+      "description": "Inflammation of bursa sacs causing moderate pain and reduced mobility. May require corticosteroid injection.",
+      "symptomDetails": "Noticeable shoulder or elbow pain, swelling, warmth, limited range of motion"
+    },
+    {
+      "painLevel": 5,
+      "name": "Rotator Cuff Strain",
+      "bodyPartId": 2,
+      "description": "Partial tear or strain of rotator cuff muscles causing substantial pain and functional limitation. Physical therapy often required.",
+      "symptomDetails": "Significant shoulder pain, difficulty raising arm, pain at night, weakness in arm"
+    },
+    {
+      "painLevel": 6,
+      "name": "Severe Bicep Tendon Tear",
+      "bodyPartId": 2,
+      "description": "Rupture of bicep tendon causing marked pain and deformity. Often requires surgical evaluation and repair.",
+      "symptomDetails": "Sudden severe pain, visible bruising, bulge in arm (Popeye sign), significant weakness"
+    },
+    {
+      "painLevel": 7,
+      "name": "Acute Compartment Syndrome",
+      "bodyPartId": 2,
+      "description": "Medical emergency where increased pressure in muscle compartment reduces blood flow. Requires emergency surgical decompression.",
+      "symptomDetails": "Severe pain disproportionate to injury, tight swelling, numbness, pale or dark skin, severe weakness"
+    },
+    {
+      "painLevel": 8,
+      "name": "Severe Compound Fracture",
+      "bodyPartId": 2,
+      "description": "Open fracture with bone breaking through skin. Surgical emergency requiring immediate medical attention to prevent infection and restore function.",
+      "symptomDetails": "Extreme pain, visible bone through skin, severe bleeding, deformity, shock symptoms"
+    },
+    {
+      "painLevel": 9,
+      "name": "Acute Arterial Occlusion",
+      "bodyPartId": 2,
+      "description": "Complete blockage of arm artery causing tissue death. Vascular emergency requiring immediate surgery to restore blood flow.",
+      "symptomDetails": "Sudden severe pain, cold pale arm, no pulse, paralysis, loss of sensation"
+    },
+    {
+      "painLevel": 10,
+      "name": "Severe Crush Injury",
+      "bodyPartId": 2,
+      "description": "Catastrophic trauma with extensive soft tissue, nerve, and vascular damage. Life-threatening injury requiring immediate emergency intervention.",
+      "symptomDetails": "Unbearable pain, massive tissue damage, severe bleeding, shock, potential amputation needed"
+    },
+    {
+      "painLevel": 1,
+      "name": "Mild Overuse Soreness",
+      "bodyPartId": 3,
+      "description": "Common soreness from repetitive motions like typing or sports. Resolves with rest and gentle stretching.",
+      "symptomDetails": "Light aching after repetitive activities, mild stiffness in forearm"
+    },
+    {
+      "painLevel": 2,
+      "name": "Early Carpal Tunnel Syndrome",
+      "bodyPartId": 3,
+      "description": "Nerve compression in wrist causing intermittent symptoms. Often managed with wrist splints and ergonomic adjustments.",
+      "symptomDetails": "Occasional tingling in thumb and fingers, mild hand numbness at night"
+    },
+    {
+      "painLevel": 3,
+      "name": "Tennis Elbow",
+      "bodyPartId": 3,
+      "description": "Lateral epicondylitis causing elbow pain from overuse. Responds to rest, ice, and physical therapy.",
+      "symptomDetails": "Pain on outside of elbow, weak grip strength, pain when lifting objects"
+    },
+    {
+      "painLevel": 4,
+      "name": "Moderate Wrist Sprain",
+      "bodyPartId": 3,
+      "description": "Torn or stretched wrist ligaments causing significant discomfort. May require immobilization with brace or cast.",
+      "symptomDetails": "Noticeable wrist pain, swelling, bruising, reduced grip, pain with movement"
+    },
+    {
+      "painLevel": 5,
+      "name": "Frozen Shoulder",
+      "bodyPartId": 3,
+      "description": "Adhesive capsulitis causing significant shoulder restriction and pain. Requires prolonged physical therapy and sometimes surgical intervention.",
+      "symptomDetails": "Severe stiffness, progressive loss of motion, constant dull ache, pain interfering with sleep"
+    },
+    {
+      "painLevel": 6,
+      "name": "Complete Rotator Cuff Tear",
+      "bodyPartId": 3,
+      "description": "Full-thickness tear of rotator cuff requiring surgical repair. Causes severe functional impairment and constant pain.",
+      "symptomDetails": "Intense shoulder pain, inability to lift arm, severe weakness, night pain preventing sleep"
+    },
+    {
+      "painLevel": 7,
+      "name": "Severe Ulnar Nerve Injury",
+      "bodyPartId": 3,
+      "description": "Significant nerve damage causing intense neuropathic pain and functional loss. Often requires nerve surgery and extensive rehabilitation.",
+      "symptomDetails": "Severe burning pain, complete numbness in hand, claw-like hand deformity, muscle wasting"
+    },
+    {
+      "painLevel": 8,
+      "name": "Humeral Shaft Fracture",
+      "bodyPartId": 3,
+      "description": "Complete break of upper arm bone causing severe pain and requiring surgical fixation with plates or rods.",
+      "symptomDetails": "Extreme pain, obvious arm deformity, inability to move arm, swelling, bruising, possible nerve damage"
+    },
+    {
+      "painLevel": 9,
+      "name": "Severe Electrical Burn",
+      "bodyPartId": 3,
+      "description": "High-voltage electrical injury causing extensive internal damage beyond visible burns. Life-threatening condition requiring intensive care.",
+      "symptomDetails": "Excruciating pain, deep tissue destruction, muscle and nerve damage, cardiac arrhythmias"
+    },
+    {
+      "painLevel": 10,
+      "name": "Traumatic Amputation",
+      "bodyPartId": 3,
+      "description": "Catastrophic injury with complete limb loss. Requires immediate tourniquet application and emergency surgical intervention to prevent death.",
+      "symptomDetails": "Complete loss of limb, extreme pain, massive hemorrhage, shock, life-threatening blood loss"
+    },
+    {
+      "painLevel": 1,
+      "name": "Mild Indigestion",
+      "bodyPartId": 4,
+      "description": "Minor digestive upset from food or drink. Usually resolves on its own or with antacids.",
+      "symptomDetails": "Slight stomach discomfort, mild bloating, occasional gas"
+    },
+    {
+      "painLevel": 2,
+      "name": "Constipation",
+      "bodyPartId": 4,
+      "description": "Reduced bowel movements causing mild to moderate discomfort. Responds to increased fiber, fluids, and stool softeners.",
+      "symptomDetails": "Lower abdominal cramping, bloating, difficulty passing stool"
+    },
+    {
+      "painLevel": 3,
+      "name": "Gastritis",
+      "bodyPartId": 4,
+      "description": "Inflammation of stomach lining causing moderate pain. Managed with acid reducers, dietary changes, and avoiding irritants.",
+      "symptomDetails": "Upper abdominal burning, nausea, feeling full quickly, occasional vomiting"
+    },
+    {
+      "painLevel": 4,
+      "name": "Irritable Bowel Syndrome (IBS)",
+      "bodyPartId": 4,
+      "description": "Chronic condition causing significant abdominal discomfort and bowel changes. Requires dietary management and medication.",
+      "symptomDetails": "Cramping abdominal pain, alternating diarrhea and constipation, bloating, mucus in stool"
+    },
+    {
+      "painLevel": 5,
+      "name": "Gastroenteritis",
+      "bodyPartId": 4,
+      "description": "Viral or bacterial infection causing intense stomach flu symptoms. May require IV fluids if dehydration severe.",
+      "symptomDetails": "Severe cramping, diarrhea, vomiting, fever, dehydration, body aches"
+    },
+    {
+      "painLevel": 6,
+      "name": "Kidney Stones",
+      "bodyPartId": 4,
+      "description": "Hard mineral deposits causing severe colicky pain as they pass through urinary tract. Often requires pain medication and sometimes surgical removal.",
+      "symptomDetails": "Intense wave-like pain in side and back, radiating to lower abdomen and groin, blood in urine, nausea, vomiting"
+    },
+    {
+      "painLevel": 7,
+      "name": "Acute Pancreatitis",
+      "bodyPartId": 4,
+      "description": "Inflammation of pancreas causing severe persistent pain. Requires hospitalization, IV fluids, and pain management.",
+      "symptomDetails": "Severe upper abdominal pain radiating to back, worsens after eating, nausea, vomiting, fever, rapid pulse"
+    },
+    {
+      "painLevel": 8,
+      "name": "Acute Appendicitis",
+      "bodyPartId": 4,
+      "description": "Inflamed appendix requiring emergency surgical removal. Delayed treatment risks rupture and life-threatening peritonitis.",
+      "symptomDetails": "Sudden severe pain starting near navel then moving to lower right abdomen, fever, nausea, vomiting, loss of appetite, rebound tenderness"
+    },
+    {
+      "painLevel": 9,
+      "name": "Perforated Ulcer",
+      "bodyPartId": 4,
+      "description": "Hole in stomach or intestine wall spilling contents into abdomen. Surgical emergency causing severe peritonitis and sepsis if untreated.",
+      "symptomDetails": "Sudden, severe, sharp abdominal pain, rigid abdomen, signs of shock, severe nausea, inability to pass gas"
+    },
+    {
+      "painLevel": 10,
+      "name": "Ruptured Abdominal Aortic Aneurysm",
+      "bodyPartId": 4,
+      "description": "Bursting of main abdominal artery causing massive internal bleeding. Most lethal surgical emergency requiring immediate operation. High mortality rate even with treatment.",
+      "symptomDetails": "Sudden catastrophic abdominal or back pain, rapid pulse, loss of consciousness, severe drop in blood pressure, imminent death without surgery"
+    },
+    {
+      "painLevel": 1,
+      "name": "Minor Calf Cramp",
+      "bodyPartId": 5,
+      "description": "Common muscle cramp from dehydration or overuse. Relieved by stretching and hydration.",
+      "symptomDetails": "Brief muscle spasm, temporary tightness, mild residual soreness"
+    },
+    {
+      "painLevel": 2,
+      "name": "Shin Splints",
+      "bodyPartId": 5,
+      "description": "Overuse injury common in runners. Responds to rest, ice, proper footwear, and gradual return to activity.",
+      "symptomDetails": "Dull ache along shin bone, tenderness, pain during and after exercise"
+    },
+    {
+      "painLevel": 3,
+      "name": "Mild Ankle Sprain",
+      "bodyPartId": 5,
+      "description": "Stretched or partially torn ankle ligaments. Requires rest, ice, compression, elevation (RICE) and possibly bracing.",
+      "symptomDetails": "Ankle pain and swelling, mild bruising, difficulty walking, tenderness"
+    },
+    {
+      "painLevel": 4,
+      "name": "Knee Osteoarthritis",
+      "bodyPartId": 5,
+      "description": "Wear and tear of knee cartilage causing chronic pain and reduced mobility. Managed with medications, physical therapy, and weight management.",
+      "symptomDetails": "Knee pain and stiffness, worse in morning or after sitting, grinding sensation, reduced flexibility"
+    },
+    {
+      "painLevel": 5,
+      "name": "Meniscus Tear",
+      "bodyPartId": 5,
+      "description": "Torn knee cartilage causing significant pain and mechanical symptoms. Often requires arthroscopic surgery for repair or removal.",
+      "symptomDetails": "Knee pain especially with twisting, swelling, stiffness, locking or catching sensation, difficulty straightening knee"
+    },
+    {
+      "painLevel": 6,
+      "name": "ACL Tear",
+      "bodyPartId": 5,
+      "description": "Complete tear of anterior cruciate ligament causing severe pain and knee instability. Usually requires surgical reconstruction and months of rehabilitation.",
+      "symptomDetails": "Sudden severe knee pain with pop sound, rapid swelling, instability, inability to bear weight"
+    },
+    {
+      "painLevel": 7,
+      "name": "Severe Achilles Tendon Rupture",
+      "bodyPartId": 5,
+      "description": "Complete tear of Achilles tendon causing severe pain and loss of function. Requires surgical repair or prolonged immobilization.",
+      "symptomDetails": "Sudden severe pain in back of ankle with pop or snap sound, inability to stand on toes, visible gap in tendon, significant swelling"
+    },
+    {
+      "painLevel": 8,
+      "name": "Tibial Plateau Fracture",
+      "bodyPartId": 5,
+      "description": "Break in upper shinbone affecting knee joint. Serious injury requiring surgical repair with plates and screws.",
+      "symptomDetails": "Severe knee pain, rapid massive swelling, complete inability to bear weight, visible deformity"
+    },
+    {
+      "painLevel": 9,
+      "name": "Acute Compartment Syndrome",
+      "bodyPartId": 5,
+      "description": "Surgical emergency where increased pressure cuts off blood flow to leg muscles. Requires emergency fasciotomy to prevent permanent damage.",
+      "symptomDetails": "Extreme leg pain, severe tightness, numbness and tingling, pale or dusky skin, paralysis"
+    },
+    {
+      "painLevel": 10,
+      "name": "Femoral Artery Laceration",
+      "bodyPartId": 5,
+      "description": "Severed major leg artery causing life-threatening hemorrhage. Requires immediate tourniquet and emergency vascular surgery. Can be fatal within minutes without intervention.",
+      "symptomDetails": "Catastrophic pain, massive bleeding, rapid blood loss, shock, loss of consciousness, potential death within minutes"
+    },
+    {
+      "painLevel": 1,
+      "name": "Mild Foot Fatigue",
+      "bodyPartId": 6,
+      "description": "Normal foot fatigue from prolonged standing or walking. Relieved by rest and foot elevation.",
+      "symptomDetails": "Slight aching in feet after standing, minor soreness in arch"
+    },
+    {
+      "painLevel": 2,
+      "name": "Plantar Fasciitis (early)",
+      "bodyPartId": 6,
+      "description": "Inflammation of plantar fascia causing heel pain. Managed with stretching, proper footwear, and orthotics.",
+      "symptomDetails": "Heel pain especially with first steps in morning, tenderness in arch, pain after prolonged standing"
+    },
+    {
+      "painLevel": 3,
+      "name": "Moderate Ankle Sprain",
+      "bodyPartId": 6,
+      "description": "Partially torn ankle ligaments causing moderate functional impairment. Requires immobilization and physical therapy.",
+      "symptomDetails": "Significant ankle pain and swelling, bruising, difficulty bearing weight, joint instability"
+    },
+    {
+      "painLevel": 4,
+      "name": "Stress Fracture",
+      "bodyPartId": 6,
+      "description": "Small crack in bone from repetitive stress. Requires rest, protective boot, and gradual return to activity over 6-8 weeks.",
+      "symptomDetails": "Localized bone pain, worsens with activity, improves with rest, swelling, tenderness"
+    },
+    {
+      "painLevel": 5,
+      "name": "Deep Vein Thrombosis (DVT)",
+      "bodyPartId": 6,
+      "description": "Blood clot in deep leg vein causing significant pain and swelling. Requires immediate anticoagulation to prevent pulmonary embolism.",
+      "symptomDetails": "Calf pain and swelling, warmth, redness, tenderness, leg feels heavy"
+    },
+    {
+      "painLevel": 6,
+      "name": "Severe Patellar Dislocation",
+      "bodyPartId": 6,
+      "description": "Kneecap moves out of position causing severe pain. Requires reduction (repositioning) and often surgical stabilization.",
+      "symptomDetails": "Intense knee pain, visible kneecap displacement, inability to straighten leg, swelling, deformity"
+    },
+    {
+      "painLevel": 7,
+      "name": "Tibial Fracture",
+      "bodyPartId": 6,
+      "description": "Complete break of shin bone causing severe pain and requiring surgical fixation with rods or plates.",
+      "symptomDetails": "Severe leg pain, obvious deformity, inability to bear weight, swelling, bruising, possible open wound"
+    },
+    {
+      "painLevel": 8,
+      "name": "Hip Fracture",
+      "bodyPartId": 6,
+      "description": "Break in upper thighbone requiring emergency surgery. Common in elderly and requires immediate surgical pinning or replacement.",
+      "symptomDetails": "Severe hip and groin pain, inability to stand or walk, leg appears shorter and turned outward, severe bruising"
+    },
+    {
+      "painLevel": 9,
+      "name": "Multiple Trauma with Pelvic Fracture",
+      "bodyPartId": 6,
+      "description": "Severe pelvic break causing massive internal bleeding. Life-threatening injury requiring emergency stabilization and surgery.",
+      "symptomDetails": "Extreme pain, unable to move leg, internal bleeding, shock, low blood pressure, possible nerve damage"
+    },
+    {
+      "painLevel": 10,
+      "name": "Traumatic Lower Limb Amputation",
+      "bodyPartId": 6,
+      "description": "Catastrophic traumatic injury with complete leg separation. Requires immediate tourniquet, emergency transport, and surgical intervention. High risk of death from blood loss.",
+      "symptomDetails": "Complete leg loss, unbearable pain, massive bleeding, shock, life-threatening hemorrhage, potential death"
+    },
+    {
+      "painLevel": 1,
+      "name": "Mild Muscle Stiffness",
+      "bodyPartId": 7,
+      "description": "Common stiffness from poor posture or prolonged sitting. Improves with stretching and movement.",
+      "symptomDetails": "Slight tightness in lower back, minor discomfort with bending"
+    },
+    {
+      "painLevel": 2,
+      "name": "Muscle Strain",
+      "bodyPartId": 7,
+      "description": "Overstretched or torn muscle fibers causing mild to moderate pain. Responds to rest, ice, and over-the-counter pain relievers.",
+      "symptomDetails": "Dull aching, muscle tightness, limited range of motion, pain with certain movements"
+    },
+    {
+      "painLevel": 3,
+      "name": "Mechanical Back Pain",
+      "bodyPartId": 7,
+      "description": "Non-specific back pain from muscle or ligament strain. Managed with physical therapy, proper body mechanics, and core strengthening.",
+      "symptomDetails": "Lower back pain, stiffness, pain worsens with activity, improves with rest, limited flexibility"
+    },
+    {
+      "painLevel": 4,
+      "name": "Herniated Disc (mild)",
+      "bodyPartId": 7,
+      "description": "Bulging spinal disc pressing on nerve causing moderate pain and nerve symptoms. Often responds to conservative treatment.",
+      "symptomDetails": "Back pain radiating down leg, numbness or tingling, weakness, pain worsens with sitting or bending"
+    },
+    {
+      "painLevel": 5,
+      "name": "Sciatica",
+      "bodyPartId": 7,
+      "description": "Severe nerve irritation causing intense radiating pain. May require epidural injections or surgery if conservative treatment fails.",
+      "symptomDetails": "Sharp shooting pain from lower back down leg, burning sensation, numbness, difficulty standing from sitting"
+    },
+    {
+      "painLevel": 6,
+      "name": "Severe Herniated Disc",
+      "bodyPartId": 7,
+      "description": "Large disc herniation with severe nerve compression. Often requires surgical discectomy to relieve pressure.",
+      "symptomDetails": "Intense back and leg pain, significant numbness, muscle weakness, difficulty walking, loss of reflexes"
+    },
+    {
+      "painLevel": 7,
+      "name": "Spinal Stenosis (severe)",
+      "bodyPartId": 7,
+      "description": "Narrowing of spinal canal causing significant nerve compression. May require decompressive surgery if symptoms are severe.",
+      "symptomDetails": "Severe back and leg pain, numbness, weakness in legs, difficulty walking, pain improves when leaning forward"
+    },
+    {
+      "painLevel": 8,
+      "name": "Compression Fracture",
+      "bodyPartId": 7,
+      "description": "Vertebral collapse from osteoporosis or trauma. Causes severe pain and may require vertebroplasty or kyphoplasty.",
+      "symptomDetails": "Sudden severe back pain, height loss, stooped posture, pain worsens with movement, difficulty standing straight"
+    },
+    {
+      "painLevel": 9,
+      "name": "Cauda Equina Syndrome",
+      "bodyPartId": 7,
+      "description": "Surgical emergency with compression of nerve roots at base of spine. Requires immediate surgery within 48 hours to prevent permanent paralysis and incontinence.",
+      "symptomDetails": "Severe lower back pain, bilateral leg weakness, numbness in saddle area, loss of bowel/bladder control, sexual dysfunction"
+    },
+    {
+      "painLevel": 10,
+      "name": "Spinal Cord Transection",
+      "bodyPartId": 7,
+      "description": "Complete severing of spinal cord causing permanent paralysis and loss of all function below injury level. Devastating injury requiring immediate emergency spinal stabilization.",
+      "symptomDetails": "Catastrophic pain, complete paralysis below injury, total loss of sensation, inability to breathe if high injury, spinal shock"
     }
-]
+  ]
+}
