@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-01-04T00:00:00Z",
+  "source": "mock",
+  "diseases": [
+    {
+      "id": 1,
+      "name": "Tension Headache",
+      "bodyPartId": 1,
+      "level": 3,
+      "symptoms": ["Headache", "Dull ache"],
+      "description": "Mild to moderate feeling of pressure or tightness"
+    },
+    {
+      "id": 2,
+      "name": "Migraine",
+      "bodyPartId": 1,
+      "level": 5,
+      "symptoms": ["Migraine", "Nausea", "Light sensitivity"],
+      "description": "Severe headache often accompanied by nausea and sensitivity to light"
+    },
+    {
+      "id": 3,
+      "name": "Gastritis",
+      "bodyPartId": 4,
+      "level": 4,
+      "symptoms": ["Stomach ache", "Nausea"],
+      "description": "Inflammation of the stomach lining"
+    },
+    {
+      "id": 4,
+      "name": "Muscle Strain",
+      "bodyPartId": 7,
+      "level": 2,
+      "symptoms": ["Lower back pain", "Limited mobility"],
+      "description": "Overstretching or tearing of muscle fibres"
+    },
+    {
+      "id": 5,
+      "name": "Knee Osteoarthritis",
+      "bodyPartId": 5,
+      "level": 3,
+      "symptoms": ["Knee pain", "Stiffness"],
+      "description": "Wear and tear of knee joint cartilage"
+    }
+  ]
+}

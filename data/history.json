@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-01-04T00:00:00Z",
+  "source": "mock",
+  "history": [
+    {
+      "id": "h1",
+      "symptomName": {"id": 1, "name": "Headache", "bodyPartId": 1},
+      "disease": {"id": 1, "name": "Tension Headache", "bodyPartId": 1, "level": 3},
+      "bodyPartId": 1,
+      "dateLogged": "2026-01-02T14:30:00Z",
+      "level": 3,
+      "notes": "Mild tension headache after work"
+    },
+    {
+      "id": "h2",
+      "symptomName": {"id": 4, "name": "Stomach ache", "bodyPartId": 4},
+      "disease": {"id": 3, "name": "Gastritis", "bodyPartId": 4, "level": 4},
+      "bodyPartId": 4,
+      "dateLogged": "2026-01-01T18:00:00Z",
+      "level": 2,
+      "notes": "After spicy food"
+    },
+    {
+      "id": "h3",
+      "symptomName": {"id": 6, "name": "Lower back pain", "bodyPartId": 7},
+      "disease": {"id": 4, "name": "Muscle Strain", "bodyPartId": 7, "level": 2},
+      "bodyPartId": 7,
+      "dateLogged": "2025-12-31T10:15:00Z",
+      "level": 2,
+      "notes": "From lifting boxes"
+    }
+  ]
+}

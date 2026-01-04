@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "name": "Epilepsy",
+        "description": "A neurological disorder marked by sudden recurrent episodes of sensory disturbance, loss of consciousness, or convulsions, associated with abnormal electrical activity in the brain.",
+        "level": 4
+    },
+    {
+        "id": 2,
+        "name": "Hypoglycemia",
+        "description": "A condition characterized by an abnormally low level of blood sugar (glucose), which is the body's main energy source.",
+        "level": 2
+    },
+    {
+        "id": 3,
+        "name": "Sleep Disorders",
+        "description": "A group of conditions that affect the ability to sleep well on a regular basis, including insomnia, sleep apnea, and narcolepsy.",
+        "level": 3
+    },
+    {
+        "id": 4,
+        "name": "Muscle Strain",
+        "description": "An injury to a muscle or tendon resulting from overstretching or overuse, leading to pain and limited movement.",
+        "level": 2
+    },
+    {
+        "id": 5,
+        "name": "Arthritis",
+        "description": "A group of conditions involving inflammation of one or more joints, causing pain and stiffness that can worsen with age.",
+        "level": 3
+    },
+    {
+        "id": 6,
+        "name": "Dermatitis",
+        "description": "A general term for inflammation of the skin, which can result from allergies or irritants.",
+        "level": 1
+    },
+    {
+        "id": 7,
+        "name": "Gastroenteritis",
+        "description": "An intestinal infection marked by diarrhea, cramps, nausea, vomiting, and fever, often caused by bacteria or viruses.",
+        "level": 2
+    },
+    {
+        "id": 8,
+        "name": "Sciatica",
+        "description": "Pain affecting the back, hip, and outer side of the leg, caused by compression of a spinal nerve root in the lower back.",
+        "level": 3
+    },
+    {
+        "id": 9,
+        "name": "Tendonitis",
+        "description": "Inflammation or irritation of a tendon, often caused by repetitive motion or overuse.",
+        "level": 2
+    },
+    {
+        "id": 10,
+        "name": "Fibromyalgia",
+        "description": "A chronic condition characterized by widespread musculoskeletal pain, fatigue, and tenderness in localized areas.",
+        "level": 4
+    }
+]
