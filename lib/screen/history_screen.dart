@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:painmap/widgets/history_card.dart';
+import 'package:painmap/widgets/bottom_navigation.dart';
 import 'package:painmap/models/history.dart';
 import 'package:painmap/models/body_part.dart';
 import 'package:painmap/models/disease.dart';
 import 'package:painmap/models/symptom.dart';
-
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -14,6 +14,7 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
+  int _currentIndex = 2; // History screen is at index 2
   String _filterLevel = 'All';
 
   // Mock data - Replace with actual API call or database query
@@ -26,7 +27,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         bodyPart: BodyPart.head,
       ),
       disease: Disease(
-        id: 1,
+        painLevel: 1,
         name: 'Migraine',
         bodyPartId: 1,
         description: 'Severe recurring headache',
@@ -44,7 +45,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         bodyPart: BodyPart.back,
       ),
       disease: Disease(
-        id: 2,
+        painLevel: 2,
         name: 'Muscle Strain',
         bodyPartId: 7,
         description: 'Muscle overuse injury',
@@ -62,7 +63,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         bodyPart: BodyPart.leftLeg,
       ),
       disease: Disease(
-        id: 3,
+        painLevel: 3,
         name: 'Joint Inflammation',
         bodyPartId: 5,
       ),
@@ -105,6 +106,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: AppBottomNavigation(
+        currentIndex: _currentIndex,
       ),
     );
   }

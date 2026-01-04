@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:painmap/widgets/detail_symptom.dart';
 import 'package:painmap/widgets/symptom_list_item.dart';
+import 'package:painmap/widgets/bottom_navigation.dart';
 import '../models/body_part.dart';
 import '../models/symptom.dart';
 import '../widgets/category_card.dart';
@@ -15,6 +16,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _controller = TextEditingController();
+  int _currentIndex = 1; // Search screen is at index 1
 
   BodyPart? _selectedPart;
   bool _isLoading = true;
@@ -208,6 +210,9 @@ void _onCategoryTap(BodyPart bodyPart) {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: AppBottomNavigation(
+        currentIndex: _currentIndex,
       ),
     );
   }

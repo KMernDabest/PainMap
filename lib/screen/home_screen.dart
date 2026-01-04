@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:painmap/models/body_part.dart';
+import 'package:painmap/models/disease.dart';
 import 'package:painmap/services/symptom_matcher_service.dart';
 import 'package:painmap/widgets/body_diagram.dart';
+import 'package:painmap/widgets/bottom_navigation.dart';
 import './search_screen.dart';
-import './history_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,6 +15,254 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  final SymptomMatcherService _symptomMatcher = SymptomMatcherService();
+
+  void _showDiseaseDetailsModal(Disease disease) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.7,
+        minChildSize: 0.5,
+        maxChildSize: 0.95,
+        expand: false,
+        builder: (context, scrollController) {
+          return Container(
+            padding: const EdgeInsets.all(24),
+            child: ListView(
+              controller: scrollController,
+              children: [
+                // Header with close button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        disease.name,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF2563EB),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                
+                // Pain level indicator
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: _getPainLevelColor(disease.painLevel).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: _getPainLevelColor(disease.painLevel),
+                      width: 2,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        _getPainLevelIcon(disease.painLevel),
+                        color: _getPainLevelColor(disease.painLevel),
+                        size: 28,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Pain Level: ${disease.painLevel}/10',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: _getPainLevelColor(disease.painLevel),
+                              ),
+                            ),
+                            Text(
+                              _getSeverityText(disease.painLevel),
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: _getPainLevelColor(disease.painLevel).withOpacity(0.8),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                // Description section
+                if (disease.description != null) ...[
+                  const Row(
+                    children: [
+                      Icon(Icons.info_outline, color: Color(0xFF2563EB)),
+                      SizedBox(width: 8),
+                      Text(
+                        'Description',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      disease.description!,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+
+                // Symptom details section
+                if (disease.symptomDetails != null) ...[
+                  const Row(
+                    children: [
+                      Icon(Icons.medical_services_outlined, color: Color(0xFF2563EB)),
+                      SizedBox(width: 8),
+                      Text(
+                        'Symptoms',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.blue[50],
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: const Color(0xFF2563EB).withOpacity(0.3)),
+                    ),
+                    child: Text(
+                      disease.symptomDetails!,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+
+                // Emergency warning for high pain levels
+                if (disease.painLevel >= 8) ...[
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.red[50],
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.red, width: 2),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.warning_amber_rounded, color: Colors.red, size: 32),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'MEDICAL EMERGENCY',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                disease.painLevel >= 10
+                                    ? 'Call 911 or go to ER IMMEDIATELY'
+                                    : 'Seek emergency medical attention now',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+
+                // Action buttons
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    // TODO: Navigate to history or save functionality
+                  },
+                  icon: const Icon(Icons.bookmark_add_outlined),
+                  label: const Text('Save to History'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF2563EB),
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 32),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Color _getPainLevelColor(int painLevel) {
+    if (painLevel <= 2) return Colors.green;
+    if (painLevel <= 4) return Colors.yellow[700]!;
+    if (painLevel <= 6) return Colors.orange;
+    if (painLevel <= 8) return Colors.deepOrange;
+    return Colors.red;
+  }
+
+  IconData _getPainLevelIcon(int painLevel) {
+    if (painLevel <= 2) return Icons.sentiment_satisfied;
+    if (painLevel <= 4) return Icons.sentiment_neutral;
+    if (painLevel <= 6) return Icons.sentiment_dissatisfied;
+    if (painLevel <= 8) return Icons.sick;
+    return Icons.emergency;
+  }
+
+  String _getSeverityText(int painLevel) {
+    if (painLevel <= 2) return 'Mild';
+    if (painLevel <= 4) return 'Moderate';
+    if (painLevel <= 6) return 'Severe';
+    if (painLevel <= 8) return 'Very Severe';
+    return 'Critical Emergency';
+  }
 
   void _showBodyPartModal(BodyPart bodyPart) {
     double painLevel = 1.0;
@@ -91,10 +340,41 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: ()  {
-                    // Implement disease matching logic here
-                    const SymptomMatcher();
-                        
+                  onPressed: () {
+                    // Match disease based on body part and pain level
+                    final disease = _symptomMatcher.matchDisease(
+                      bodyPart.id,
+                      painLevel.toInt(),
+                    );
+
+                    Navigator.pop(context); // Close the pain level modal
+
+                    if (disease != null) {
+                      // Show disease details modal
+                      _showDiseaseDetailsModal(disease);
+                    } else {
+                      // Show no match found message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'No disease found for ${bodyPart.name} with pain level ${painLevel.toInt()}',
+                          ),
+                          backgroundColor: Colors.orange,
+                          action: SnackBarAction(
+                            label: 'Search',
+                            textColor: Colors.white,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => SearchScreen(initialQuery: bodyPart.name),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF2563EB),
@@ -137,31 +417,6 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
-  }
-
-  void _onTabTapped(int index) {
-    if (index == _currentIndex) return;
-
-    Widget target;
-    switch (index) {
-      case 1:
-        target = const SearchScreen();
-        break;
-      case 2:
-        target = const HistoryScreen();
-        break;
-      default:
-        target = const HomeScreen();
-    }
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => target),
-    ).then((_) {
-      setState(() {
-        _currentIndex = index;
-      });
-    });
   }
 
   @override
@@ -261,26 +516,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
       // ✅ Bottom Navigation
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: AppBottomNavigation(
         currentIndex: _currentIndex,
-        onTap: _onTabTapped,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color(0xFF2563EB),
-        unselectedItemColor: Colors.grey,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.accessibility_new),
-            label: 'Body',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'History',
-          ),
-        ],
       ),
     );
   }
