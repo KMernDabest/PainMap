@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:painmap/models/body_part.dart';
+import 'package:painmap/services/symptom_matcher_service.dart';
 import 'package:painmap/widgets/body_diagram.dart';
 import './search_screen.dart';
 import './history_screen.dart';
@@ -90,12 +91,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    final int painLevelInt = painLevel.toInt();
-                    // TODO: Implement disease matching with painLevelInt and bodyPart
-                    // Use painLevelInt to match against Disease.level field
-                    // Example: diseases.where((d) => d.level == painLevelInt && d.bodyPart == bodyPart)
+                  onPressed: ()  {
+                    // Implement disease matching logic here
+                    const SymptomMatcher();
+                        
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF2563EB),

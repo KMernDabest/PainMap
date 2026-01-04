@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-03T00:00:00Z",
+  "generatedAt": "2026-01-04T00:00:00Z",
   "source": "mock",
   "bodyParts": [
     {
@@ -50,16 +50,6 @@
       "icon": "accessibility_new",
       "examples": ["Lower back pain", "Upper back stiffness", "Muscle spasm"],
       "common_symptoms": ["Dull ache", "Reduced mobility", "Tenderness"]
-    },
-    {
-        "id": 8,
-        "name": "Chest",
-        "icon": "monitor_heart",
-        "examples": ["Chest tightness", "Sharp chest pain", "Shortness of breath"],
-        "common_symptoms": ["Pressure", "Burning sensation", "Radiating pain"]
-    },
-    {
-        
     }
   ]
 }
