@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:painmap/models/body_part.dart';
 import 'package:painmap/models/disease.dart';
+import 'package:painmap/models/symptom.dart';
+import 'package:painmap/models/history.dart';
 import 'package:painmap/services/symptom_matcher_service.dart';
 import 'package:painmap/widgets/body_diagram.dart';
 import 'package:painmap/widgets/bottom_navigation.dart';
+import 'package:painmap/data/data_repository.dart';
 import './search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,8 +19,20 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   final SymptomMatcherService _symptomMatcher = SymptomMatcherService();
+  final DataRepository _dataRepository = DataRepository();
+  BodyPart? _currentBodyPart;
+  int? _currentPainLevel;
 
-  void _showDiseaseDetailsModal(Disease disease) {
+  void _showDiseaseDetailsModal(
+    Disease disease,
+    BodyPart bodyPart,
+    int painLevel,
+  ) {
+    setState(() {
+      _currentBodyPart = bodyPart;
+      _currentPainLevel = painLevel;
+    });
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -56,12 +71,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 const SizedBox(height: 8),
-                
+
                 // Pain level indicator
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
-                    color: _getPainLevelColor(disease.painLevel).withOpacity(0.1),
+                    color: _getPainLevelColor(
+                      disease.painLevel,
+                    ).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: _getPainLevelColor(disease.painLevel),
@@ -92,7 +112,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               _getSeverityText(disease.painLevel),
                               style: TextStyle(
                                 fontSize: 14,
-                                color: _getPainLevelColor(disease.painLevel).withOpacity(0.8),
+                                color: _getPainLevelColor(
+                                  disease.painLevel,
+                                ).withOpacity(0.8),
                               ),
                             ),
                           ],
@@ -127,10 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Text(
                       disease.description!,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        height: 1.5,
-                      ),
+                      style: const TextStyle(fontSize: 15, height: 1.5),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -140,7 +159,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (disease.symptomDetails != null) ...[
                   const Row(
                     children: [
-                      Icon(Icons.medical_services_outlined, color: Color(0xFF2563EB)),
+                      Icon(
+                        Icons.medical_services_outlined,
+                        color: Color(0xFF2563EB),
+                      ),
                       SizedBox(width: 8),
                       Text(
                         'Symptoms',
@@ -157,14 +179,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: BoxDecoration(
                       color: Colors.blue[50],
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFF2563EB).withOpacity(0.3)),
+                      border: Border.all(
+                        color: const Color(0xFF2563EB).withOpacity(0.3),
+                      ),
                     ),
                     child: Text(
                       disease.symptomDetails!,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        height: 1.5,
-                      ),
+                      style: const TextStyle(fontSize: 15, height: 1.5),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -181,7 +202,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.warning_amber_rounded, color: Colors.red, size: 32),
+                        const Icon(
+                          Icons.warning_amber_rounded,
+                          color: Colors.red,
+                          size: 32,
+                        ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
@@ -216,9 +241,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 // Action buttons
                 ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    // TODO: Navigate to history or save functionality
+                  onPressed: () async {
+                    // Find a symptom that matches the body part
+                    final symptom = Symptom.symptomList.firstWhere(
+                      (s) => s.bodyPart == _currentBodyPart,
+                      orElse: () => Symptom.symptomList.first,
+                    );
+
+                    // Create history entry
+                    final history = History(
+                      id: DateTime.now().millisecondsSinceEpoch.toString(),
+                      symptomName: symptom,
+                      disease: disease,
+                      bodyPart: _currentBodyPart!,
+                      dateLogged: DateTime.now(),
+                      level: _currentPainLevel,
+                      notes: null,
+                    );
+
+                    // Save to repository
+                    await _dataRepository.addHistory(history);
+
+                    if (mounted) {
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Saved to history successfully'),
+                          backgroundColor: Colors.green,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    }
                   },
                   icon: const Icon(Icons.bookmark_add_outlined),
                   label: const Text('Save to History'),
@@ -266,7 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _showBodyPartModal(BodyPart bodyPart) {
     double painLevel = 1.0;
-    
+
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -299,10 +352,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 24),
                 const Text(
                   'Pain Level',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 8),
                 Row(
@@ -318,10 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const Text(
                       '/ 10',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey,
-                      ),
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
                     ),
                   ],
                 ),
@@ -351,7 +398,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     if (disease != null) {
                       // Show disease details modal
-                      _showDiseaseDetailsModal(disease);
+                      _showDiseaseDetailsModal(
+                        disease,
+                        bodyPart,
+                        painLevel.toInt(),
+                      );
                     } else {
                       // Show no match found message
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -367,7 +418,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => SearchScreen(initialQuery: bodyPart.name),
+                                  builder: (_) =>
+                                      SearchScreen(initialQuery: bodyPart.name),
                                 ),
                               );
                             },
@@ -394,7 +446,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => SearchScreen(initialQuery: bodyPart.name)),
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            SearchScreen(initialQuery: bodyPart.name),
+                      ),
                     );
                   },
 
@@ -408,7 +463,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: const Text(
                     'Search Symptoms',
                     style: TextStyle(fontSize: 16, color: Color(0xFF2563EB)),
-
                   ),
                 ),
               ],
@@ -450,10 +504,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Text(
                           'Welcome,',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white70,
-                          ),
+                          style: TextStyle(fontSize: 16, color: Colors.white70),
                         ),
                         SizedBox(height: 4),
                         Text(
@@ -469,10 +520,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     CircleAvatar(
                       radius: 22,
                       backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.person,
-                        color: Color(0xFF2563EB),
-                      ),
+                      child: Icon(Icons.person, color: Color(0xFF2563EB)),
                     ),
                   ],
                 ),
@@ -495,8 +543,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       prefixIcon: Icon(Icons.search),
                       suffixIcon: Icon(Icons.tune),
                       border: InputBorder.none,
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
                     ),
                   ),
                 ),
@@ -507,18 +557,14 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: BodyDiagram(
-                onBodyPartTapped: _showBodyPartModal,
-              ),
+              child: BodyDiagram(onBodyPartTapped: _showBodyPartModal),
             ),
           ),
         ],
       ),
 
       // ✅ Bottom Navigation
-      bottomNavigationBar: AppBottomNavigation(
-        currentIndex: _currentIndex,
-      ),
+      bottomNavigationBar: AppBottomNavigation(currentIndex: _currentIndex),
     );
   }
 }

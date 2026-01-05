@@ -18,7 +18,7 @@ class History {
     required this.bodyPart,
     required this.dateLogged,
     this.level,
-    this.notes
+    this.notes,
   });
 
   factory History.fromJson(Map<String, dynamic> json) {
@@ -41,8 +41,8 @@ class History {
 
   Map<String, dynamic> toJson() => {
     'id': id,
-    'symptomName': symptomName,
-    'disease': disease,
+    'symptomId': symptomName.id,
+    'diseaseId': disease.id,
     'bodyPartId': bodyPart.id,
     'dateLogged': dateLogged.toIso8601String(),
     'level': level,

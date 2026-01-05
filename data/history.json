@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1704451200000",
+    "symptomId": 8,
+    "diseaseId": 5,
+    "bodyPartId": 1,
+    "dateLogged": "2026-01-04T14:30:00.000",
+    "level": 7,
+    "notes": "Started after long screen time, sensitivity to light"
+  },
+  {
+    "id": "1704364800000",
+    "symptomId": 61,
+    "diseaseId": 72,
+    "bodyPartId": 7,
+    "dateLogged": "2026-01-03T09:15:00.000",
+    "level": 5,
+    "notes": "After gym workout, muscle stiffness"
+  },
+  {
+    "id": "1704278400000",
+    "symptomId": 46,
+    "diseaseId": 53,
+    "bodyPartId": 5,
+    "dateLogged": "2026-01-02T16:45:00.000",
+    "level": 4,
+    "notes": "Mild discomfort after jogging"
+  },
+  {
+    "id": "1704192000000",
+    "symptomId": 31,
+    "diseaseId": 42,
+    "bodyPartId": 4,
+    "dateLogged": "2026-01-01T20:00:00.000",
+    "level": 3,
+    "notes": null
+  },
+  {
+    "id": "1704105600000",
+    "symptomId": 11,
+    "diseaseId": 13,
+    "bodyPartId": 2,
+    "dateLogged": "2025-12-31T11:30:00.000",
+    "level": 2,
+    "notes": "Slight tingling, went away after rest"
+  }
+]
