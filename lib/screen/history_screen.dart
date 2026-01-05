@@ -39,6 +39,32 @@ class _HistoryScreenState extends State<HistoryScreen> {
     });
   }
 
+  void _deleteHistory(String id) async {
+    final shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete History'),
+        content: const Text('Are you sure you want to delete this history entry?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldDelete == true) {
+      await _dataRepository.deleteHistory(id);
+      await _loadHistories();
+    }
+  }
+
   List<History> get _filteredHistories {
     if (_filterLevel == 'All') return _histories;
 
@@ -224,6 +250,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           child: HistoryCard(
             history: _filteredHistories[index],
             onTap: () => _showHistoryDetails(_filteredHistories[index]),
+            onDelete: () => _deleteHistory(_filteredHistories[index].id),
           ),
         );
       },

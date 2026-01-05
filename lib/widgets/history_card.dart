@@ -5,11 +5,13 @@ import 'package:painmap/models/body_part.dart';
 class HistoryCard extends StatelessWidget {
   final History history;
   final VoidCallback onTap;
+  final VoidCallback? onDelete;
 
   const HistoryCard({
     super.key,
     required this.history,
     required this.onTap,
+    this.onDelete,
   });
 
   @override
@@ -194,12 +196,25 @@ class HistoryCard extends StatelessWidget {
                 ),
               ),
               
-              // Arrow
-              Icon(
-                Icons.chevron_right,
-                color: Colors.grey[400],
-                size: 20,
-              ),
+              // Delete Button
+              if (onDelete != null)
+                IconButton(
+                  icon: Icon(
+                    Icons.delete_outline,
+                    color: Colors.red[400],
+                    size: 22,
+                  ),
+                  onPressed: onDelete,
+                  padding: const EdgeInsets.all(4),
+                  constraints: const BoxConstraints(),
+                  tooltip: 'Delete',
+                )
+              else
+                Icon(
+                  Icons.chevron_right,
+                  color: Colors.grey[400],
+                  size: 20,
+                ),
             ],
           ),
         ),

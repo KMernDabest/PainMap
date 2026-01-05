@@ -26,12 +26,15 @@ class History {
       id: json['id'] as String,
       symptomName: Symptom.symptomList.firstWhere(
         (symptom) => symptom.id == json['symptomId'] as int,
+        orElse: () => Symptom.symptomList.first,
       ),
       disease: Disease.diseaseList.firstWhere(
         (disease) => disease.id == json['diseaseId'] as int,
+        orElse: () => Disease.diseaseList.first,
       ),
       bodyPart: BodyPart.values.firstWhere(
         (bp) => bp.id == json['bodyPartId'] as int,
+        orElse: () => BodyPart.values.first,
       ),
       dateLogged: DateTime.parse(json['dateLogged'] as String),
       level: json['level'] as int?,

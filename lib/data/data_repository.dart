@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:painmap/models/history.dart';
 
 class DataRepository {
   final Map<String, History> _histories = {};
   static const String _storageKey = 'histories_data';
+  static const String _initializedKey = 'histories_initialized';
+  static const String _assetPath = 'data/history.json';
   Future<void>? _initFuture;
 
   DataRepository() {
@@ -26,8 +29,27 @@ class DataRepository {
   Future<void> _loadData() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final jsonString = prefs.getString(_storageKey);
-
+      final isInitialized = prefs.getBool(_initializedKey) ?? false;
+      String? jsonString = prefs.getString(_storageKey);
+      
+      print('=== Loading Data ===');
+      print('Already initialized: $isInitialized');
+      print('SharedPreferences contains data: ${jsonString != null && jsonString.isNotEmpty}');
+      
+      // Only load from asset if never initialized before
+      if (!isInitialized) {
+        print('First time initialization - loading from asset file...');
+        jsonString = await rootBundle.loadString(_assetPath);
+        await prefs.setBool(_initializedKey, true);
+        print('Marked as initialized');
+      } else if (jsonString == null || jsonString.isEmpty) {
+        print('Initialized but no data - starting with empty list');
+        _histories.clear();
+        return;
+      } else {
+        print('Loading from SharedPreferences...');
+      }
+      
       if (jsonString != null && jsonString.isNotEmpty) {
         final List<dynamic> decoded = jsonDecode(jsonString);
         _histories.clear();
@@ -35,7 +57,12 @@ class DataRepository {
           final history = History.fromJson(json as Map<String, dynamic>);
           _histories[history.id] = history;
         }
-        print('Loaded ${_histories.length} histories from storage');
+        print('Loaded ${_histories.length} histories');
+        
+        // Save to storage immediately after first load
+        if (!isInitialized) {
+          await _saveToStorage();
+        }
       }
     } catch (e) {
       print('Error loading data: $e');
@@ -45,6 +72,13 @@ class DataRepository {
   Future<void> addHistory(History history) async {
     _histories[history.id] = history;
     await _saveToStorage();
+  }
+
+  Future<void> deleteHistory(String id) async {
+    final removed = _histories.remove(id);
+    print('Deleted history with id: $id, existed: ${removed != null}');
+    await _saveToStorage();
+    print('Delete operation completed, remaining histories: ${_histories.length}');
   }
 
   Future<void> _saveToStorage() async {
