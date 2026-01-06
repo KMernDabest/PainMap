@@ -3,8 +3,7 @@ import 'package:painmap/widgets/history_card.dart';
 import 'package:painmap/widgets/bottom_navigation.dart';
 import 'package:painmap/models/history.dart';
 import 'package:painmap/models/body_part.dart';
-import 'package:painmap/models/disease.dart';
-import 'package:painmap/models/symptom.dart';
+import 'package:painmap/data/data_repository.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -16,66 +15,59 @@ class HistoryScreen extends StatefulWidget {
 class _HistoryScreenState extends State<HistoryScreen> {
   int _currentIndex = 2; // History screen is at index 2
   String _filterLevel = 'All';
+  final DataRepository _dataRepository = DataRepository();
+  List<History> _histories = [];
+  bool _isLoading = true;
 
-  // Mock data - Replace with actual API call or database query
-  final List<History> _histories = [
-    History(
-      id: '1',
-      symptomName: Symptom(
-        id: 1,
-        name: 'Sharp Headache',
-        bodyPart: BodyPart.head,
+  @override
+  void initState() {
+    super.initState();
+    _loadHistories();
+  }
+
+  Future<void> _loadHistories() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    // Wait for DataRepository to initialize
+    await _dataRepository.ensureInitialized();
+
+    setState(() {
+      _histories = _dataRepository.getAllHistories();
+      _isLoading = false;
+    });
+  }
+
+  void _deleteHistory(String id) async {
+    final shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete History'),
+        content: const Text('Are you sure you want to delete this history entry?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: const Text('Delete'),
+          ),
+        ],
       ),
-      disease: Disease(
-        painLevel: 1,
-        name: 'Migraine',
-        bodyPartId: 1,
-        description: 'Severe recurring headache',
-      ),
-      bodyPart: BodyPart.head,
-      dateLogged: DateTime.now().subtract(const Duration(hours: 2)),
-      level: 8,
-      notes: 'Started after long screen time',
-    ),
-    History(
-      id: '2',
-      symptomName: Symptom(
-        id: 2,
-        name: 'Lower Back Pain',
-        bodyPart: BodyPart.back,
-      ),
-      disease: Disease(
-        painLevel: 2,
-        name: 'Muscle Strain',
-        bodyPartId: 7,
-        description: 'Muscle overuse injury',
-      ),
-      bodyPart: BodyPart.back,
-      dateLogged: DateTime.now().subtract(const Duration(days: 1)),
-      level: 5,
-      notes: 'After gym workout',
-    ),
-    History(
-      id: '3',
-      symptomName: Symptom(
-        id: 3,
-        name: 'Mild Knee Discomfort',
-        bodyPart: BodyPart.leftLeg,
-      ),
-      disease: Disease(
-        painLevel: 3,
-        name: 'Joint Inflammation',
-        bodyPartId: 5,
-      ),
-      bodyPart: BodyPart.leftLeg,
-      dateLogged: DateTime.now().subtract(const Duration(days: 2)),
-      level: 3,
-    ),
-  ];
+    );
+
+    if (shouldDelete == true) {
+      await _dataRepository.deleteHistory(id);
+      await _loadHistories();
+    }
+  }
 
   List<History> get _filteredHistories {
     if (_filterLevel == 'All') return _histories;
-    
+
     return _histories.where((history) {
       final level = _getLevelFromPainLevel(history.level ?? 0);
       return level.name.toLowerCase() == _filterLevel.toLowerCase();
@@ -100,16 +92,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
             _buildHeader(),
             _buildFilterChips(),
             Expanded(
-              child: _filteredHistories.isEmpty
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : _filteredHistories.isEmpty
                   ? _buildEmptyState()
                   : _buildHistoriesList(),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: AppBottomNavigation(
-        currentIndex: _currentIndex,
-      ),
+      bottomNavigationBar: AppBottomNavigation(currentIndex: _currentIndex),
     );
   }
 
@@ -159,10 +151,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   SizedBox(height: 2),
                   Text(
                     'Your symptom timeline',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF64748B),
-                    ),
+                    style: TextStyle(fontSize: 14, color: Color(0xFF64748B)),
                   ),
                 ],
               ),
@@ -198,7 +187,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget _buildFilterChip(String label, IconData icon) {
     final isSelected = _filterLevel == label;
     Color chipColor;
-    
+
     switch (label) {
       case 'Severe':
         chipColor = const Color(0xFFEF4444);
@@ -221,11 +210,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       label: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 16,
-            color: isSelected ? Colors.white : chipColor,
-          ),
+          Icon(icon, size: 16, color: isSelected ? Colors.white : chipColor),
           const SizedBox(width: 6),
           Text(label),
         ],
@@ -265,6 +250,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           child: HistoryCard(
             history: _filteredHistories[index],
             onTap: () => _showHistoryDetails(_filteredHistories[index]),
+            onDelete: () => _deleteHistory(_filteredHistories[index].id),
           ),
         );
       },
@@ -300,10 +286,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           const SizedBox(height: 8),
           Text(
             'Start tracking your symptoms',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[600],
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
           ),
         ],
       ),
@@ -345,7 +328,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
           ),
           const SizedBox(height: 24),
-          
+
           // Symptom name with level badge
           Row(
             children: [
@@ -385,7 +368,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ],
           ),
           const SizedBox(height: 16),
-          
+
           // Details
           _buildDetailRow(
             Icons.person_outline,
@@ -408,12 +391,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
             _formatTime(history.dateLogged),
           ),
           if (history.level != null)
-            _buildDetailRow(
-              Icons.speed,
-              'Pain Level',
-              '${history.level}/10',
-            ),
-          
+            _buildDetailRow(Icons.speed, 'Pain Level', '${history.level}/10'),
+
           // Disease description
           if (history.disease.description != null &&
               history.disease.description!.isNotEmpty) ...[
@@ -443,7 +422,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               ),
             ),
           ],
-          
+
           // Notes
           if (history.notes != null && history.notes!.isNotEmpty) ...[
             const SizedBox(height: 16),
@@ -468,11 +447,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(
-                    Icons.notes,
-                    size: 18,
-                    color: Color(0xFFF59E0B),
-                  ),
+                  const Icon(Icons.notes, size: 18, color: Color(0xFFF59E0B)),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -488,7 +463,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               ),
             ),
           ],
-          
+
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () => Navigator.pop(context),
@@ -518,10 +493,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           const SizedBox(width: 12),
           Text(
             '$label: ',
-            style: const TextStyle(
-              fontSize: 14,
-              color: Color(0xFF64748B),
-            ),
+            style: const TextStyle(fontSize: 14, color: Color(0xFF64748B)),
           ),
           Expanded(
             child: Text(
@@ -556,11 +528,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
   String _formatDate(DateTime dateTime) {
     final now = DateTime.now();
     final difference = now.difference(dateTime);
-    
+
     if (difference.inDays == 0) return 'Today';
     if (difference.inDays == 1) return 'Yesterday';
     if (difference.inDays < 7) return '${difference.inDays} days ago';
-    
+
     return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
   }
 
