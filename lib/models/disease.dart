@@ -19,6 +19,27 @@ class Disease {
     // this.level,
   });
 
+  String fromId(int bodyPartId) {
+    switch (bodyPartId) {
+      case 1:
+        return 'Head';
+      case 2:
+        return 'Left Arm';
+      case 3:
+        return 'Right Arm';
+      case 4:
+        return 'Abdomen';
+      case 5:
+        return 'Left Leg';
+      case 6:
+        return 'Right Leg';
+      case 7:
+        return 'Back';
+      default:
+        return 'Unknown';
+    }
+  }
+
   static final List<Disease> diseaseList = [
     // HEAD DISEASES (bodyPartId: 1)
     Disease(

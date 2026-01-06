@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:painmap/models/body_part.dart';
-import 'package:painmap/models/symptom.dart';
+import 'package:painmap/models/disease.dart';
 
-class SymptomListItem extends StatelessWidget {
-  final Symptom symptom;
+class DiseaseListItem extends StatelessWidget {
+  final Disease disease;
   final VoidCallback onTap;
 
-  const SymptomListItem({
+  const DiseaseListItem({
     super.key,
-    required this.symptom,
+    required this.disease,
     required this.onTap,
   });
 
@@ -58,7 +57,7 @@ class SymptomListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      symptom.name,
+                      disease.name,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -75,7 +74,7 @@ class SymptomListItem extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          symptom.bodyPart.name.toUpperCase(),
+                          disease.fromId(disease.bodyPartId),
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.grey[600],
@@ -101,19 +100,23 @@ class SymptomListItem extends StatelessWidget {
   }
 
   IconData _getBodyPartIcon() {
-    switch (symptom.bodyPart) {
-      case BodyPart.head:
+    switch (disease.bodyPartId) {
+      case 1:
         return Icons.face;
-      case BodyPart.leftArm:
-      case BodyPart.rightArm:
+      case 2:
+        return Icons.visibility;
+      case 3:
         return Icons.handyman;
-      case BodyPart.abdomen:
+      case 4:
         return Icons.center_focus_strong;
-      case BodyPart.leftLeg:
-      case BodyPart.rightLeg:
+      case 5:
         return Icons.directions_walk;
-      case BodyPart.back:
+      case 6:
+        return Icons.directions_walk;
+      case 7:
         return Icons.accessibility_new;
+      default:
+        return Icons.device_unknown;
     }
   }
 }
