@@ -49,7 +49,7 @@ class DataRepository {
       } else {
         print('Loading from SharedPreferences...');
       }
-      
+
       if (jsonString != null && jsonString.isNotEmpty) {
         final List<dynamic> decoded = jsonDecode(jsonString);
         _histories.clear();

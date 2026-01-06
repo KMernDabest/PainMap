@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:painmap/widgets/detail_symptom.dart';
-import 'package:painmap/widgets/symptom_list_item.dart';
+import 'package:painmap/models/disease.dart';
+import 'package:painmap/widgets/detail_disease.dart';
+import 'package:painmap/widgets/disease_list_item.dart';
 import 'package:painmap/widgets/bottom_navigation.dart';
 import '../models/body_part.dart';
-import '../models/symptom.dart';
 import '../widgets/category_card.dart';
 
 class SearchScreen extends StatefulWidget {
-  final String? initialQuery;
+  final BodyPart? initialQuery;
   const SearchScreen({super.key, this.initialQuery});
 
   @override
@@ -21,79 +21,73 @@ class _SearchScreenState extends State<SearchScreen> {
   BodyPart? _selectedPart;
   bool _isLoading = true;
 
-  List<Symptom> _allSymptoms = [];
-  List<Symptom> _filteredSymptoms = [];
+  List<Disease> _allDisease = [];
+  List<Disease> _filteredDisease = [];
 
   @override
   void initState() {
     super.initState();
-    _loadSymptoms();
+    _loadDiseases();
   }
 
-  //Load symptoms from symptom list
-  void _loadSymptoms() {
-  setState(() {
-    _isLoading = true;
-  });
+  //Load diseases from disease list
+  void _loadDiseases() {
+    setState(() {
+      _isLoading = true;
+    });
 
-  _allSymptoms = Symptom.symptomList;
+    _allDisease = Disease.diseaseList;
 
-  if (widget.initialQuery != null && widget.initialQuery!.isNotEmpty) {
-    _controller.text = widget.initialQuery!;
-    _performSearch(_controller.text, bodyPart: _selectedPart);
-  } 
-  else {
-    _filteredSymptoms = List.from(_allSymptoms);
+    if (widget.initialQuery != null) {
+      // _controller.text = widget.initialQuery!;
+      // _performSearch(_controller.text, bodyPart: _selectedPart);
+
+       _selectedPart = widget.initialQuery;
+      _performSearch('', bodyPart: _selectedPart);
+    } else {
+      _filteredDisease = List.from(_allDisease);
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
-  setState(() {
-    _isLoading = false;
-  });
-}
-
-  
   void _performSearch(String query, {BodyPart? bodyPart}) {
     final queryString = query.trim().toLowerCase();
     final selectedBodyPart = bodyPart ?? _selectedPart;
 
     setState(() {
-      _filteredSymptoms = _allSymptoms.where((symptom) {
-        // Match symptom name with search text
-        final matchesText = queryString.isEmpty || symptom.name.toLowerCase().contains(queryString);
-        
+      _filteredDisease = _allDisease.where((disease) {
+        // Match disease name with search text
+        final matchesText =
+            queryString.isEmpty ||
+            disease.name.toLowerCase().contains(queryString);
+
         // Match selected body part category
-        final matchesBodyPart = selectedBodyPart == null || symptom.bodyPart == selectedBodyPart;
+        final matchesBodyPart =
+            selectedBodyPart == null ||
+            disease.bodyPartId == selectedBodyPart.id;
 
         return matchesText && matchesBodyPart;
       }).toList();
     });
   }
 
-void _onCategoryTap(BodyPart bodyPart) {
-  setState(() {
-    _selectedPart = bodyPart;
-    _controller.clear(); // Clear search text when selecting category
-  });
+  void _onCategoryTap(BodyPart bodyPart) {
+    setState(() {
+      _selectedPart = bodyPart;
+      _controller.clear();
+    });
 
-  // Show ALL symptoms of the selected category
-  _performSearch('', bodyPart: bodyPart);
-}
-
-//   void _onCategoryTap(BodyPart bodyPart) {
-//     setState(() {
-//       _selectedPart = bodyPart;
-//       _controller.text = bodyPart.name;
-//     });
-
-//     _performSearch(bodyPart.name, bodyPart: _selectedPart);
-
-//  }
+    _performSearch('', bodyPart: bodyPart);
+  }
 
   void _clearFilters() {
     setState(() {
       _selectedPart = null;
       _controller.clear();
-      _filteredSymptoms = List.from(_allSymptoms);
+      _filteredDisease = List.from(_allDisease);
     });
   }
 
@@ -107,10 +101,7 @@ void _onCategoryTap(BodyPart bodyPart) {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7FAFC),
-      appBar: AppBar(
-        title: const Text('Search Symptoms'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Search diseases'), centerTitle: true),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -121,7 +112,7 @@ void _onCategoryTap(BodyPart bodyPart) {
               controller: _controller,
               onChanged: _performSearch,
               decoration: InputDecoration(
-                hintText: 'Search symptoms...',
+                hintText: 'Search diseases...',
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _controller.text.isNotEmpty
                     ? IconButton(
@@ -176,44 +167,34 @@ void _onCategoryTap(BodyPart bodyPart) {
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
-                  : _filteredSymptoms.isEmpty
-                      ? const Center(child: Text('No symptoms found'))
-                      : ListView.builder(
-                          itemCount: _filteredSymptoms.length,
-                          itemBuilder: (context, index) {
-                            final symptom = _filteredSymptoms[index];
+                  : _filteredDisease.isEmpty
+                  ? const Center(child: Text('No diseases found'))
+                  : ListView.builder(
+                      itemCount: _filteredDisease.length,
+                      itemBuilder: (context, index) {
+                        final disease = _filteredDisease[index];
+                        return DiseaseListItem(
+                          disease: disease,
+                          onTap: () async {
+                            final BodyPart? selectedPart = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => DetailDisease(disease: disease),
+                              ),
+                            );
 
-                            // return Card(
-                            //   shape: RoundedRectangleBorder(
-                            //     borderRadius: BorderRadius.circular(12),
-                            //   ),
-                            //   child: ListTile(
-                            //     title: Text(symptom.name),
-                            //     subtitle: Text(symptom.bodyPart.name),
-                            //     trailing: const Icon(Icons.chevron_right),
-                            //     onTap: () {
-                            //       // TODO: Navigate to symptom detail
-                            //     },
-                            //   ),
-                            // );
-                            return SymptomListItem(symptom: symptom, onTap: () {
-                              // TODO: Navigate to symptom detail
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const DetailSymptom(),
-                                ),
-                              );
-                            });
+                            if (selectedPart != null) {
+                              _onCategoryTap(selectedPart);
+                            }
                           },
-                        ),
+                        );
+                      },
+                    ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: AppBottomNavigation(
-        currentIndex: _currentIndex,
-      ),
+      bottomNavigationBar: AppBottomNavigation(currentIndex: _currentIndex),
     );
   }
 }

@@ -419,7 +419,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (_) =>
-                                      SearchScreen(initialQuery: bodyPart.name),
+                                      SearchScreen(initialQuery: bodyPart),
                                 ),
                               );
                             },
@@ -448,7 +448,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (_) =>
-                            SearchScreen(initialQuery: bodyPart.name),
+                            SearchScreen(initialQuery: bodyPart),
+                            // const _onCategoryTap(bodyPart),
                       ),
                     );
                   },
@@ -539,7 +540,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                     decoration: const InputDecoration(
-                      hintText: 'Search symptoms...',
+                      hintText: 'Search diseases...',
                       prefixIcon: Icon(Icons.search),
                       suffixIcon: Icon(Icons.tune),
                       border: InputBorder.none,
