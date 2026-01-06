@@ -1,27 +1,351 @@
-[
+{
+  "generatedAt": "2026-01-04T20:40:08.149375",
+  "source": "app",
+  "symptoms": [
     {
-        "id" : 1,
-        "name" : "absence seizure",
-        "disease" : [
-            {
-                "id" : 1,
-                "name" : "Epilepsy",
-                "description" : "A neurological disorder marked by sudden recurrent episodes of sensory disturbance, loss of consciousness, or convulsions, associated with abnormal electrical activity in the brain.",
-                "level" : 4
-            },
-            {
-                "id" : 2,
-                "name" : "Hypoglycemia",
-                "description" : "A condition characterized by an abnormally low level of blood sugar (glucose), which is the body's main energy source.",
-                "level" : 2
-            },
-            {
-                "id" : 3,
-                "name" : "Sleep Disorders",
-                "description" : "A group of conditions that affect the ability to sleep well on a regular basis, including insomnia, sleep apnea, and narcolepsy.",
-                "level" : 3
-            }
-        ],
-        "bodyPartId" : 1
+      "id": 1,
+      "name": "Dizziness",
+      "bodyPartId": 1
+    },
+    {
+      "id": 2,
+      "name": "Fever",
+      "bodyPartId": 1
+    },
+    {
+      "id": 3,
+      "name": "Insomnia",
+      "bodyPartId": 1
+    },
+    {
+      "id": 4,
+      "name": "Memory Loss",
+      "bodyPartId": 1
+    },
+    {
+      "id": 6,
+      "name": "Migraine Headache",
+      "bodyPartId": 1
+    },
+    {
+      "id": 7,
+      "name": "Really sleepy during the day",
+      "bodyPartId": 1
+    },
+    {
+      "id": 8,
+      "name": "Severe headache",
+      "bodyPartId": 1
+    },
+    {
+      "id": 9,
+      "name": "Tension headache",
+      "bodyPartId": 1
+    },
+    {
+      "id": 10,
+      "name": "Trouble Concentrating",
+      "bodyPartId": 1
+    },
+    {
+      "id": 11,
+      "name": "Arm pain",
+      "bodyPartId": 2
+    },
+    {
+      "id": 12,
+      "name": "Numbness in fingers",
+      "bodyPartId": 2
+    },
+    {
+      "id": 13,
+      "name": "Tingling sensation",
+      "bodyPartId": 2
+    },
+    {
+      "id": 14,
+      "name": "Weak grip",
+      "bodyPartId": 2
+    },
+    {
+      "id": 15,
+      "name": "Wrist pain",
+      "bodyPartId": 2
+    },
+    {
+      "id": 16,
+      "name": "Elbow pain",
+      "bodyPartId": 2
+    },
+    {
+      "id": 17,
+      "name": "Shoulder stiffness",
+      "bodyPartId": 2
+    },
+    {
+      "id": 18,
+      "name": "Limited arm movement",
+      "bodyPartId": 2
+    },
+    {
+      "id": 19,
+      "name": "Muscle cramps",
+      "bodyPartId": 2
+    },
+    {
+      "id": 20,
+      "name": "Swelling in arm",
+      "bodyPartId": 2
+    },
+    {
+      "id": 21,
+      "name": "Arm pain",
+      "bodyPartId": 3
+    },
+    {
+      "id": 22,
+      "name": "Numbness in fingers",
+      "bodyPartId": 3
+    },
+    {
+      "id": 23,
+      "name": "Tingling sensation",
+      "bodyPartId": 3
+    },
+    {
+      "id": 24,
+      "name": "Weak grip",
+      "bodyPartId": 3
+    },
+    {
+      "id": 25,
+      "name": "Wrist pain",
+      "bodyPartId": 3
+    },
+    {
+      "id": 26,
+      "name": "Elbow pain",
+      "bodyPartId": 3
+    },
+    {
+      "id": 27,
+      "name": "Shoulder stiffness",
+      "bodyPartId": 3
+    },
+    {
+      "id": 28,
+      "name": "Limited arm movement",
+      "bodyPartId": 3
+    },
+    {
+      "id": 29,
+      "name": "Muscle cramps",
+      "bodyPartId": 3
+    },
+    {
+      "id": 30,
+      "name": "Swelling in arm",
+      "bodyPartId": 3
+    },
+    {
+      "id": 31,
+      "name": "Abdominal pain",
+      "bodyPartId": 4
+    },
+    {
+      "id": 32,
+      "name": "Bloating",
+      "bodyPartId": 4
+    },
+    {
+      "id": 33,
+      "name": "Constipation",
+      "bodyPartId": 4
+    },
+    {
+      "id": 34,
+      "name": "Diarrhea",
+      "bodyPartId": 4
+    },
+    {
+      "id": 35,
+      "name": "Fatigue",
+      "bodyPartId": 4
+    },
+    {
+      "id": 36,
+      "name": "Nausea",
+      "bodyPartId": 4
+    },
+    {
+      "id": 37,
+      "name": "Vomiting",
+      "bodyPartId": 4
+    },
+    {
+      "id": 38,
+      "name": "Loss of appetite",
+      "bodyPartId": 4
+    },
+    {
+      "id": 39,
+      "name": "Weight loss",
+      "bodyPartId": 4
+    },
+    {
+      "id": 40,
+      "name": "Acid reflux",
+      "bodyPartId": 4
+    },
+    {
+      "id": 41,
+      "name": "Leg pain",
+      "bodyPartId": 5
+    },
+    {
+      "id": 42,
+      "name": "Numbness in toes",
+      "bodyPartId": 5
+    },
+    {
+      "id": 43,
+      "name": "Tingling sensation",
+      "bodyPartId": 5
+    },
+    {
+      "id": 44,
+      "name": "Weak legs",
+      "bodyPartId": 5
+    },
+    {
+      "id": 45,
+      "name": "Leg swelling",
+      "bodyPartId": 5
+    },
+    {
+      "id": 46,
+      "name": "Knee pain",
+      "bodyPartId": 5
+    },
+    {
+      "id": 47,
+      "name": "Muscle cramps",
+      "bodyPartId": 5
+    },
+    {
+      "id": 48,
+      "name": "Limited leg movement",
+      "bodyPartId": 5
+    },
+    {
+      "id": 49,
+      "name": "Foot pain",
+      "bodyPartId": 5
+    },
+    {
+      "id": 50,
+      "name": "Swelling in leg",
+      "bodyPartId": 5
+    },
+    {
+      "id": 51,
+      "name": "Leg pain",
+      "bodyPartId": 6
+    },
+    {
+      "id": 52,
+      "name": "Numbness in toes",
+      "bodyPartId": 6
+    },
+    {
+      "id": 53,
+      "name": "Tingling sensation",
+      "bodyPartId": 6
+    },
+    {
+      "id": 54,
+      "name": "Weak legs",
+      "bodyPartId": 6
+    },
+    {
+      "id": 55,
+      "name": "Leg swelling",
+      "bodyPartId": 6
+    },
+    {
+      "id": 56,
+      "name": "Knee pain",
+      "bodyPartId": 6
+    },
+    {
+      "id": 57,
+      "name": "Muscle cramps",
+      "bodyPartId": 6
+    },
+    {
+      "id": 58,
+      "name": "Limited leg movement",
+      "bodyPartId": 6
+    },
+    {
+      "id": 59,
+      "name": "Foot pain",
+      "bodyPartId": 6
+    },
+    {
+      "id": 60,
+      "name": "Swelling in leg",
+      "bodyPartId": 6
+    },
+    {
+      "id": 61,
+      "name": "Back pain",
+      "bodyPartId": 7
+    },
+    {
+      "id": 62,
+      "name": "Numbness in back",
+      "bodyPartId": 7
+    },
+    {
+      "id": 63,
+      "name": "Muscle stiffness",
+      "bodyPartId": 7
+    },
+    {
+      "id": 64,
+      "name": "Limited back movement",
+      "bodyPartId": 7
+    },
+    {
+      "id": 65,
+      "name": "Muscle spasms",
+      "bodyPartId": 7
+    },
+    {
+      "id": 66,
+      "name": "Back swelling",
+      "bodyPartId": 7
+    },
+    {
+      "id": 67,
+      "name": "Sharp back pain",
+      "bodyPartId": 7
+    },
+    {
+      "id": 68,
+      "name": "Back stiffness",
+      "bodyPartId": 7
+    },
+    {
+      "id": 69,
+      "name": "Radiating back pain",
+      "bodyPartId": 7
+    },
+    {
+      "id": 70,
+      "name": "Muscle weakness",
+      "bodyPartId": 7
     }
-]
+  ]
+}

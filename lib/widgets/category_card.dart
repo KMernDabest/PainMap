@@ -3,18 +3,10 @@ import '../models/body_part.dart';
 
 class CategoryCard extends StatelessWidget {
   final BodyPart part;
+  final bool isSelected;
   final VoidCallback? onTap;
 
-  const CategoryCard({super.key, required this.part, this.onTap});
-
-  String _labelForPart(int bodyPartId) {
-    for (var part in BodyPart.values) {
-      if (part.id == bodyPartId) {
-        return part.name;
-      }
-    }
-    return 'Unknown';
-  }
+  const CategoryCard({super.key, required this.part, required this.isSelected, this.onTap});
 
 //   static IconData _iconForPart(BodyPart part) {
 //   // We use the string stored in part.icon to decide which IconData to return
@@ -65,7 +57,6 @@ static IconData _iconForPart(BodyPart part) {
 
   @override
   Widget build(BuildContext context) {
-    final label = _labelForPart(part.id);
     final icon = _iconForPart(part);
 
     return SizedBox(
@@ -78,23 +69,32 @@ static IconData _iconForPart(BodyPart part) {
           child: Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFFFFF),
+              color: isSelected ? Colors.blue.shade50 : Colors.white,
               borderRadius: BorderRadius.circular(12),
-              boxShadow: [
+              border: isSelected
+                  ? Border.all(color: Colors.blue, width: 2)
+                  : null,
+              boxShadow: const [
                 BoxShadow(
                   color: Colors.black12,
                   blurRadius: 6,
-                  offset: const Offset(0, 2),
+                  offset: Offset(0, 2),
                 ),
               ],
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(icon, size: 32, color: const Color(0xFF2563EB)),
+                Icon(
+                  icon,
+                  size: 32,
+                  color: isSelected
+                      ? Colors.blue
+                      : const Color(0xFF2563EB),
+                ),
                 const SizedBox(height: 8),
                 Text(
-                  label,
+                  part.name,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 14,
