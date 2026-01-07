@@ -14,7 +14,8 @@ class SymptomMatcherService {
     }
   }
 
-  /// Get all diseases for a specific body part and pain level
+  // Get all diseases for a specific body part and pain level
+  // Originally intended to return multiple matches
   List<Disease> getAllMatchingDiseases(int bodyPartId, int painLevel) {
     return Disease.diseaseList
         .where((disease) =>
