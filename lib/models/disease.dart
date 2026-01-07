@@ -7,7 +7,6 @@ class Disease {
   final int bodyPartId;
   final String? description;
   final String? symptomDetails;
-  // final int? level;
 
   Disease({
     required this.id,
@@ -16,7 +15,6 @@ class Disease {
     required this.bodyPartId,
     this.description,
     this.symptomDetails,
-    // this.level,
   });
 
   String fromId(int bodyPartId) {

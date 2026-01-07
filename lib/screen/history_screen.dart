@@ -13,8 +13,8 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-  int _currentIndex = 2; // History screen is at index 2
-  String _filterLevel = 'All';
+  final int _currentIndex = 2; // History screen is at index 2
+  final String _filterLevel = 'All';
   final DataRepository _dataRepository = DataRepository();
   List<History> _histories = [];
   bool _isLoading = true;
@@ -90,7 +90,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         child: Column(
           children: [
             _buildHeader(),
-            _buildFilterChips(),
+            // _buildFilterChips(),
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
@@ -159,84 +159,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildFilterChips() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            _buildFilterChip('All', Icons.list),
-            const SizedBox(width: 8),
-            _buildFilterChip('Severe', Icons.warning_rounded),
-            const SizedBox(width: 8),
-            _buildFilterChip('Moderate', Icons.info_outline),
-            const SizedBox(width: 8),
-            _buildFilterChip('Mild', Icons.check_circle_outline),
-            const SizedBox(width: 8),
-            _buildFilterChip('Low', Icons.trending_down),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFilterChip(String label, IconData icon) {
-    final isSelected = _filterLevel == label;
-    Color chipColor;
-
-    switch (label) {
-      case 'Severe':
-        chipColor = const Color(0xFFEF4444);
-        break;
-      case 'Moderate':
-        chipColor = const Color(0xFFF59E0B);
-        break;
-      case 'Mild':
-        chipColor = const Color(0xFFFBBF24);
-        break;
-      case 'Low':
-        chipColor = const Color(0xFF10B981);
-        break;
-      default:
-        chipColor = const Color(0xFF2563EB);
-    }
-
-    return FilterChip(
-      selected: isSelected,
-      label: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 16, color: isSelected ? Colors.white : chipColor),
-          const SizedBox(width: 6),
-          Text(label),
-        ],
-      ),
-      labelStyle: TextStyle(
-        color: isSelected ? Colors.white : chipColor,
-        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-        fontSize: 13,
-      ),
-      backgroundColor: Colors.white,
-      selectedColor: chipColor,
-      checkmarkColor: Colors.white,
-      elevation: 0,
-      pressElevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: BorderSide(
-          color: isSelected ? chipColor : chipColor.withOpacity(0.3),
-          width: 1.5,
-        ),
-      ),
-      onSelected: (selected) {
-        setState(() {
-          _filterLevel = label;
-        });
-      },
     );
   }
 
@@ -393,7 +315,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           if (history.level != null)
             _buildDetailRow(Icons.speed, 'Pain Level', '${history.level}/10'),
 
-          // Disease description
+          //Disease description
           if (history.disease.description != null &&
               history.disease.description!.isNotEmpty) ...[
             const SizedBox(height: 16),
@@ -423,7 +345,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
           ],
 
-          // Notes
+          //Notes
           if (history.notes != null && history.notes!.isNotEmpty) ...[
             const SizedBox(height: 16),
             const Text(
