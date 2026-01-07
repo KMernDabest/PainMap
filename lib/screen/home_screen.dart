@@ -7,6 +7,7 @@ import 'package:painmap/services/symptom_matcher_service.dart';
 import 'package:painmap/widgets/body_diagram.dart';
 import 'package:painmap/widgets/bottom_navigation.dart';
 import 'package:painmap/data/data_repository.dart';
+import 'package:uuid/uuid.dart';
 import './search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   final SymptomMatcherService _symptomMatcher = SymptomMatcherService();
   final DataRepository _dataRepository = DataRepository();
+  final Uuid _uuid = const Uuid();
   BodyPart? _currentBodyPart;
   int? _currentPainLevel;
 
@@ -250,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     // Create history entry
                     final history = History(
-                      id: DateTime.now().millisecondsSinceEpoch.toString(),
+                      id: _uuid.v4(),
                       symptomName: symptom,
                       disease: disease,
                       bodyPart: _currentBodyPart!,
@@ -564,7 +566,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
 
-      // ✅ Bottom Navigation
       bottomNavigationBar: AppBottomNavigation(currentIndex: _currentIndex),
     );
   }
