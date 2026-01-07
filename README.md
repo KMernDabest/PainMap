@@ -76,7 +76,7 @@ flutter run
 
 ```
 
-
+```
 lib/
 ├── main.dart                 # Application entry point
 ├── app.dart                  # Main app widget configuration
@@ -108,11 +108,12 @@ lib/
 
 ### Data Structure
 
+```
 data/
 ├── disease.json    # Disease database
 ├── symptom.json    # Symptom database
 └── history.json    # User history data
-
+```
 ### Core Components
 
 #### Models
