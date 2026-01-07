@@ -76,6 +76,7 @@ flutter run
 
 ```
 
+````
 lib/
 ├── main.dart                 # Application entry point
 ├── app.dart                  # Main app widget configuration
@@ -102,6 +103,8 @@ lib/
     ├── history_card.dart     # History entry card
     ├── info_section.dart     # Information section widget
     └── symptom_list.dart     # Symptom list display
+
+```
 
 ### Data Structure
 
