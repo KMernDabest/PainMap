@@ -155,43 +155,6 @@ class HistoryCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                     ],
-                    
-                    // Optional Notes Preview
-                    if (history.notes != null && history.notes!.isNotEmpty) ...[
-                      const SizedBox(height: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.notes,
-                              size: 12,
-                              color: Colors.grey[600],
-                            ),
-                            const SizedBox(width: 4),
-                            Flexible(
-                              child: Text(
-                                history.notes!,
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.grey[600],
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
                   ],
                 ),
               ),

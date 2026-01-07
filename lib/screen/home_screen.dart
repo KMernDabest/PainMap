@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
+  final int _currentIndex = 0;
   final SymptomMatcherService _symptomMatcher = SymptomMatcherService();
   final DataRepository _dataRepository = DataRepository();
   BodyPart? _currentBodyPart;

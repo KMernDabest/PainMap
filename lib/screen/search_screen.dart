@@ -16,7 +16,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _controller = TextEditingController();
-  int _currentIndex = 1; // Search screen is at index 1
+  final int _currentIndex = 1;
 
   BodyPart? _selectedPart;
   bool _isLoading = true;
@@ -39,9 +39,6 @@ class _SearchScreenState extends State<SearchScreen> {
     _allDisease = Disease.diseaseList;
 
     if (widget.initialQuery != null) {
-      // _controller.text = widget.initialQuery!;
-      // _performSearch(_controller.text, bodyPart: _selectedPart);
-
        _selectedPart = widget.initialQuery;
       _performSearch('', bodyPart: _selectedPart);
     } else {
@@ -53,18 +50,17 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
+  //Search diseases
   void _performSearch(String query, {BodyPart? bodyPart}) {
     final queryString = query.trim().toLowerCase();
     final selectedBodyPart = bodyPart ?? _selectedPart;
 
     setState(() {
       _filteredDisease = _allDisease.where((disease) {
-        // Match disease name with search text
         final matchesText =
             queryString.isEmpty ||
             disease.name.toLowerCase().contains(queryString);
 
-        // Match selected body part category
         final matchesBodyPart =
             selectedBodyPart == null ||
             disease.bodyPartId == selectedBodyPart.id;
@@ -74,6 +70,7 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
+  //Category tap
   void _onCategoryTap(BodyPart bodyPart) {
     setState(() {
       _selectedPart = bodyPart;
@@ -83,6 +80,7 @@ class _SearchScreenState extends State<SearchScreen> {
     _performSearch('', bodyPart: bodyPart);
   }
 
+  //Clear filters
   void _clearFilters() {
     setState(() {
       _selectedPart = null;
@@ -107,7 +105,7 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// Search Bar
+            // Search Bar
             TextField(
               controller: _controller,
               onChanged: _performSearch,
@@ -133,7 +131,10 @@ class _SearchScreenState extends State<SearchScreen> {
             /// Categories
             const Text(
               'Categories',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 18, 
+                fontWeight: FontWeight.bold
+              ),
             ),
             const SizedBox(height: 12),
 
