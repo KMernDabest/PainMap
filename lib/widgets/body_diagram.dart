@@ -20,7 +20,6 @@ class _BodyDiagramState extends State<BodyDiagram> {
 
   // These parts are the id mappings to that part of the body and it's from the body part selector library
   app.BodyPart? _mapToAppBodyPart(BodyParts parts) {
-    // Determine which body part was tapped based on the selection
     
     // Head (works on both front and back)
     if (parts.head && !bodyParts.head) return app.BodyPart.head;
