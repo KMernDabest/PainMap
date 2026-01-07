@@ -11,7 +11,7 @@ A Flutter application for tracking and diagnosing pain symptoms by body part loc
 - 🔎 Search functionality for diseases and symptoms
 - ⚠️ Emergency alerts for critical pain levels
 
-## Getting Started
+---
 
 ### Prerequisites
 
