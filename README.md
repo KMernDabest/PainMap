@@ -76,7 +76,7 @@ flutter run
 
 ```
 
-````
+
 lib/
 ├── main.dart                 # Application entry point
 ├── app.dart                  # Main app widget configuration
