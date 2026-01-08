@@ -13,9 +13,9 @@ static IconData _iconForPart(BodyPart part) {
     case 'face':
       return Icons.face;
     case 'handyman':
-      return Icons.handyman;
+      return Icons.waving_hand;
     case 'center_focus':
-      return Icons.center_focus_strong;
+      return Icons.favorite;
     case 'directions_walk':
       return Icons.directions_walk;
     case 'accessibility_new':

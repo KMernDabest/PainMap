@@ -544,9 +544,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: const InputDecoration(
                       hintText: 'Search diseases...',
                       prefixIcon: Icon(Icons.search),
-                      suffixIcon: Icon(Icons.tune),
+                      // suffixIcon: Icon(Icons.tune),
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(
+                        
                         horizontal: 16,
                         vertical: 14,
                       ),
