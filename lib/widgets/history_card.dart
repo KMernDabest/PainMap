@@ -32,7 +32,7 @@ class HistoryCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: const Color(0x0A000000),
                 blurRadius: 10,
                 offset: const Offset(0, 2),
               ),
@@ -95,7 +95,7 @@ class HistoryCard extends StatelessWidget {
                               vertical: 3,
                             ),
                             decoration: BoxDecoration(
-                              color: levelColor.withOpacity(0.1),
+                              color: levelColor.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Row(
@@ -192,7 +192,7 @@ class HistoryCard extends StatelessWidget {
       width: 48,
       height: 48,
       decoration: BoxDecoration(
-        color: levelColor.withOpacity(0.1),
+        color: levelColor.withValues(alpha: 0.1),
         shape: BoxShape.circle,
       ),
       child: Center(

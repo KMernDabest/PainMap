@@ -112,7 +112,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: const Color(0x08000000),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -126,7 +126,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF2563EB).withOpacity(0.1),
+                  color: const Color(0x1A2563EB),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
@@ -187,13 +187,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: const Color(0xFF2563EB).withOpacity(0.1),
+              color: const Color(0x1A2563EB),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.inbox_outlined,
               size: 64,
-              color: const Color(0xFF2563EB).withOpacity(0.5),
+              color: const Color(0x802563EB),
             ),
           ),
           const SizedBox(height: 20),
@@ -270,10 +270,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: levelColor.withOpacity(0.1),
+                  color: levelColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: levelColor.withOpacity(0.3),
+                    color: levelColor.withValues(alpha: 0.3),
                     width: 1,
                   ),
                 ),
@@ -375,7 +375,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 color: const Color(0xFFFEF3C7),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: const Color(0xFFFBBF24).withOpacity(0.3),
+                  color: const Color(0x4DFBBF24),
                 ),
               ),
               child: Row(

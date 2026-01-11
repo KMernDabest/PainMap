@@ -144,7 +144,7 @@ class _SearchScreenState extends State<SearchScreen> {
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: BodyPart.values.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 14),
+                separatorBuilder: (_, _) => const SizedBox(width: 14),
                 itemBuilder: (context, index) {
                   final part = BodyPart.values[index];
                   final isSelected = _selectedPart == part;

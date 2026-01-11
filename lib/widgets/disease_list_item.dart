@@ -26,7 +26,7 @@ class DiseaseListItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: const Color(0x0A000000),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -39,7 +39,7 @@ class DiseaseListItem extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF2563EB).withOpacity(0.1),
+                  color: const Color(0x1A2563EB),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(

@@ -41,7 +41,7 @@ class DataRepository {
         return;
       }
 
-      if (jsonString != null && jsonString.isNotEmpty) {
+      if (jsonString.isNotEmpty) {
         final List<dynamic> decoded = jsonDecode(jsonString);
         _histories.clear();
         for (var json in decoded) {

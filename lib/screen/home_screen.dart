@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: BoxDecoration(
                     color: _getPainLevelColor(
                       disease.painLevel,
-                    ).withOpacity(0.1),
+                    ).withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: _getPainLevelColor(disease.painLevel),
@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontSize: 14,
                                 color: _getPainLevelColor(
                                   disease.painLevel,
-                                ).withOpacity(0.8),
+                                ).withValues(alpha: 0.8),
                               ),
                             ),
                           ],
