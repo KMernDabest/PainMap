@@ -22,7 +22,7 @@ class DataRepository {
     try {
       await _loadData();
     } catch (e) {
-      print('Error initializing data: $e');
+      // Error initializing data
     }
   }
 
@@ -32,22 +32,13 @@ class DataRepository {
       final isInitialized = prefs.getBool(_initializedKey) ?? false;
       String? jsonString = prefs.getString(_storageKey);
       
-      print('=== Loading Data ===');
-      print('Already initialized: $isInitialized');
-      print('SharedPreferences contains data: ${jsonString != null && jsonString.isNotEmpty}');
-      
       // Only load from asset if never initialized before
       if (!isInitialized) {
-        print('First time initialization - loading from asset file...');
         jsonString = await rootBundle.loadString(_assetPath);
         await prefs.setBool(_initializedKey, true);
-        print('Marked as initialized');
       } else if (jsonString == null || jsonString.isEmpty) {
-        print('Initialized but no data - starting with empty list');
         _histories.clear();
         return;
-      } else {
-        print('Loading from SharedPreferences...');
       }
 
       if (jsonString != null && jsonString.isNotEmpty) {
@@ -57,7 +48,6 @@ class DataRepository {
           final history = History.fromJson(json as Map<String, dynamic>);
           _histories[history.id] = history;
         }
-        print('Loaded ${_histories.length} histories');
         
         // Save to storage immediately after first load
         if (!isInitialized) {
@@ -65,7 +55,7 @@ class DataRepository {
         }
       }
     } catch (e) {
-      print('Error loading data: $e');
+      // Error loading data
     }
   }
 
@@ -75,10 +65,8 @@ class DataRepository {
   }
 
   Future<void> deleteHistory(String id) async {
-    final removed = _histories.remove(id);
-    print('Deleted history with id: $id, existed: ${removed != null}');
+    _histories.remove(id);
     await _saveToStorage();
-    print('Delete operation completed, remaining histories: ${_histories.length}');
   }
 
   Future<void> _saveToStorage() async {
@@ -97,9 +85,8 @@ class DataRepository {
 
       final jsonString = jsonEncode(jsonList);
       await prefs.setString(_storageKey, jsonString);
-      print('Saved ${_histories.length} histories to storage');
     } catch (e) {
-      print('Error saving data: $e');
+      // Error saving data
     }
   }
 

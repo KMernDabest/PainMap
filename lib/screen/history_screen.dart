@@ -3,7 +3,7 @@ import 'package:painmap/widgets/history_card.dart';
 import 'package:painmap/widgets/bottom_navigation.dart';
 import 'package:painmap/models/history.dart';
 import 'package:painmap/models/body_part.dart';
-import 'package:painmap/data/data_repository.dart';
+import 'package:painmap/repo/data_repository.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -256,7 +256,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             children: [
               Expanded(
                 child: Text(
-                  history.symptomName.name,
+                  history.diseaseName,
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -292,58 +292,70 @@ class _HistoryScreenState extends State<HistoryScreen> {
           const SizedBox(height: 16),
 
           // Details
-          _buildDetailRow(
-            Icons.person_outline,
-            'Body Part',
-            history.bodyPart.name.toUpperCase(),
-          ),
-          _buildDetailRow(
-            Icons.medical_services_outlined,
-            'Disease',
-            history.disease.name,
-          ),
-          _buildDetailRow(
-            Icons.calendar_today,
-            'Date',
-            _formatDate(history.dateLogged),
-          ),
-          _buildDetailRow(
-            Icons.access_time,
-            'Time',
-            _formatTime(history.dateLogged),
-          ),
-          if (history.level != null)
-            _buildDetailRow(Icons.speed, 'Pain Level', '${history.level}/10'),
+          ...() {
+            final disease = history.getDisease();
+            return [
+              if (disease != null) ...[
+                _buildDetailRow(
+                  Icons.person_outline,
+                  'Body Part',
+                  disease.bodyPart.name.toUpperCase(),
+                ),
+                _buildDetailRow(
+                  Icons.medical_services_outlined,
+                  'Disease',
+                  disease.name,
+                ),
+              ],
+              _buildDetailRow(
+                Icons.calendar_today,
+                'Date',
+                _formatDate(history.dateLogged),
+              ),
+              _buildDetailRow(
+                Icons.access_time,
+                'Time',
+                _formatTime(history.dateLogged),
+              ),
+              if (history.level != null)
+                _buildDetailRow(Icons.speed, 'Pain Level', '${history.level}/10'),
+            ];
+          }(),
 
           //Disease description
-          if (history.disease.description != null &&
-              history.disease.description!.isNotEmpty) ...[
-            const SizedBox(height: 16),
-            const Text(
-              'About the Disease',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF64748B),
-              ),
-            ),
-            const SizedBox(height: 8),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF1F5F9),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                history.disease.description!,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF475569),
-                  height: 1.5,
+          ...() {
+            final disease = history.getDisease();
+            if (disease != null && disease.description.isNotEmpty) {
+              return [
+                const SizedBox(height: 16),
+                const Text(
+                  'About the Disease',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF64748B),
+                  ),
                 ),
-              ),
-            ),
-          ],
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF1F5F9),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    disease.description,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF475569),
+                      height: 1.5,
+                    ),
+                  ),
+                ),
+              ];
+            }
+            return [];
+          }(),
 
           //Notes
           if (history.notes != null && history.notes!.isNotEmpty) ...[

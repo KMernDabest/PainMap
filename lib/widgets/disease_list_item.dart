@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:painmap/models/disease.dart';
+import 'package:painmap/models/body_part.dart';
 
 class DiseaseListItem extends StatelessWidget {
   final Disease disease;
@@ -74,7 +75,7 @@ class DiseaseListItem extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          disease.fromId(disease.bodyPartId),
+                          disease.bodyPart.name,
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.grey[600],
@@ -100,23 +101,19 @@ class DiseaseListItem extends StatelessWidget {
   }
 
   IconData _getBodyPartIcon() {
-    switch (disease.bodyPartId) {
-      case 1:
+    switch (disease.bodyPart) {
+      case BodyPart.head:
         return Icons.face;
-      case 2:
-        return Icons.visibility;
-      case 3:
+      case BodyPart.leftArm:
+      case BodyPart.rightArm:
         return Icons.handyman;
-      case 4:
+      case BodyPart.abdomen:
         return Icons.center_focus_strong;
-      case 5:
+      case BodyPart.leftLeg:
+      case BodyPart.rightLeg:
         return Icons.directions_walk;
-      case 6:
-        return Icons.directions_walk;
-      case 7:
+      case BodyPart.back:
         return Icons.accessibility_new;
-      default:
-        return Icons.device_unknown;
     }
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/disease.dart';
 import '../widgets/info_section.dart';
-import '../widgets/symptom_list.dart';
 
 class DetailDisease extends StatelessWidget {
   final Disease disease;
@@ -95,20 +94,6 @@ class DetailDisease extends StatelessWidget {
               ),
 
             const SizedBox(height: 16),
-
-            // Symptoms
-            if (disease.symptomDetails != null &&
-                disease.symptomDetails!.isNotEmpty)
-              InfoSection(
-                title: 'Common Symptoms',
-                icon: Icons.medical_services_outlined,
-                child: SymptomList(
-                  symptoms: disease.symptomDetails!,
-                ),
-              ),
-
-            const SizedBox(height: 20),
-
 
             // Close Button
             ElevatedButton(

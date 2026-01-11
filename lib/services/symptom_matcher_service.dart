@@ -1,12 +1,14 @@
 import '../models/disease.dart';
+import '../models/body_part.dart';
+import '../repo/disease_list.dart';
 
 class SymptomMatcherService {
   /// Match disease by body part and pain level
   Disease? matchDisease(int bodyPartId, int painLevel) {
     try {
-      return Disease.diseaseList.firstWhere(
+      return DiseaseRepository.getAllDiseases().firstWhere(
         (disease) =>
-            disease.bodyPartId == bodyPartId &&
+            disease.bodyPart.id == bodyPartId &&
             disease.painLevel == painLevel,
       );
     } catch (e) {
@@ -17,9 +19,9 @@ class SymptomMatcherService {
   // Get all diseases for a specific body part and pain level
   // Originally intended to return multiple matches
   List<Disease> getAllMatchingDiseases(int bodyPartId, int painLevel) {
-    return Disease.diseaseList
+    return DiseaseRepository.getAllDiseases()
         .where((disease) =>
-            disease.bodyPartId == bodyPartId &&
+            disease.bodyPart.id == bodyPartId &&
             disease.painLevel == painLevel)
         .toList();
   }

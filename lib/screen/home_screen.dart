@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:painmap/models/body_part.dart';
 import 'package:painmap/models/disease.dart';
-import 'package:painmap/models/symptom.dart';
 import 'package:painmap/models/history.dart';
-import 'package:painmap/services/symptom_matcher_service.dart';
+import 'package:painmap/repo/disease_list.dart';
 import 'package:painmap/widgets/body_diagram.dart';
 import 'package:painmap/widgets/bottom_navigation.dart';
-import 'package:painmap/data/data_repository.dart';
+import 'package:painmap/repo/data_repository.dart';
 import 'package:uuid/uuid.dart';
 import './search_screen.dart';
 
@@ -19,10 +18,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final int _currentIndex = 0;
-  final SymptomMatcherService _symptomMatcher = SymptomMatcherService();
   final DataRepository _dataRepository = DataRepository();
   final Uuid _uuid = const Uuid();
-  BodyPart? _currentBodyPart;
   int? _currentPainLevel;
 
   void _showDiseaseDetailsModal(
@@ -31,7 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
     int painLevel,
   ) {
     setState(() {
-      _currentBodyPart = bodyPart;
       _currentPainLevel = painLevel;
     });
 
@@ -128,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 24),
 
                 // Description section
-                if (disease.description != null) ...[
+                if (disease.description.isNotEmpty) ...[
                   const Row(
                     children: [
                       Icon(Icons.info_outline, color: Color(0xFF2563EB)),
@@ -150,43 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      disease.description!,
-                      style: const TextStyle(fontSize: 15, height: 1.5),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                ],
-
-                // Symptom details section
-                if (disease.symptomDetails != null) ...[
-                  const Row(
-                    children: [
-                      Icon(
-                        Icons.medical_services_outlined,
-                        color: Color(0xFF2563EB),
-                      ),
-                      SizedBox(width: 8),
-                      Text(
-                        'Symptoms',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.blue[50],
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: const Color(0xFF2563EB).withOpacity(0.3),
-                      ),
-                    ),
-                    child: Text(
-                      disease.symptomDetails!,
+                      disease.description,
                       style: const TextStyle(fontSize: 15, height: 1.5),
                     ),
                   ),
@@ -244,18 +204,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Action buttons
                 ElevatedButton.icon(
                   onPressed: () async {
-                    // Find a symptom that matches the body part
-                    final symptom = Symptom.symptomList.firstWhere(
-                      (s) => s.bodyPart == _currentBodyPart,
-                      orElse: () => Symptom.symptomList.first,
-                    );
-
                     // Create history entry
                     final history = History(
                       id: _uuid.v4(),
-                      symptomName: symptom,
-                      disease: disease,
-                      bodyPart: _currentBodyPart!,
+                      diseaseName: disease.name,
                       dateLogged: DateTime.now(),
                       level: _currentPainLevel,
                       notes: null,
@@ -391,8 +343,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ElevatedButton(
                   onPressed: () {
                     // Match disease based on body part and pain level
-                    final disease = _symptomMatcher.matchDisease(
-                      bodyPart.id,
+                    final disease = DiseaseRepository.findByBodyPartAndPainLevel(
+                      bodyPart,
                       painLevel.toInt(),
                     );
 

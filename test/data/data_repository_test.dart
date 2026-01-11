@@ -1,14 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:painmap/data/data_repository.dart';
 import 'package:painmap/models/history.dart';
-import 'package:painmap/models/symptom.dart';
-import 'package:painmap/models/disease.dart';
-import 'package:painmap/models/body_part.dart';
+import 'package:painmap/repo/data_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-
   group('DataRepository Tests', () {
     late DataRepository repository;
 
@@ -18,67 +13,50 @@ void main() {
       await repository.ensureInitialized();
     });
 
-    test('DataRepository should initialize successfully', () async {
-      expect(repository, isNotNull);
-    });
-
-    test('addHistory should add history to repository', () async {
+    test('should add history to repository', () async {
       final history = History(
-        id: 'test-123',
-        symptomName: Symptom.symptomList.first,
-        disease: Disease.diseaseList.first,
-        bodyPart: BodyPart.head,
+        id: '1',
+        diseaseName: 'Migraine Headache',
         dateLogged: DateTime.now(),
         level: 5,
-        notes: 'Test',
       );
 
       await repository.addHistory(history);
-      final allHistories = repository.getAllHistories();
 
-      expect(allHistories, contains(history));
-      expect(allHistories.any((h) => h.id == 'test-123'), isTrue);
+      final histories = repository.getAllHistories();
+      expect(histories.length, 1);
+      expect(histories.first.id, '1');
+      expect(histories.first.diseaseName, 'Migraine Headache');
     });
 
-    test('deleteHistory should remove history from repository', () async {
+    test('should retrieve all histories', () async {
       final history = History(
-        id: 'test-456',
-        symptomName: Symptom.symptomList.first,
-        disease: Disease.diseaseList.first,
-        bodyPart: BodyPart.head,
+        id: '2',
+        diseaseName: 'Eye Strain',
         dateLogged: DateTime.now(),
         level: 3,
       );
 
       await repository.addHistory(history);
-      var allHistories = repository.getAllHistories();
-      expect(allHistories.any((h) => h.id == 'test-456'), isTrue);
 
-      await repository.deleteHistory('test-456');
-      allHistories = repository.getAllHistories();
-      expect(allHistories.any((h) => h.id == 'test-456'), isFalse);
+      final histories = repository.getAllHistories();
+      expect(histories.length, 1);
+      expect(histories.first.diseaseName, 'Eye Strain');
     });
 
-    test('getHistoryById should return correct history', () async {
+    test('should delete history from repository', () async {
       final history = History(
-        id: 'test-getbyid',
-        symptomName: Symptom.symptomList.first,
-        disease: Disease.diseaseList.first,
-        bodyPart: BodyPart.head,
+        id: '3',
+        diseaseName: 'Tension Headache',
         dateLogged: DateTime.now(),
-        level: 5,
+        level: 7,
       );
 
       await repository.addHistory(history);
-      final retrieved = repository.getHistoryById('test-getbyid');
+      expect(repository.getAllHistories().length, 1);
 
-      expect(retrieved, isNotNull);
-      expect(retrieved?.id, 'test-getbyid');
-    });
-
-    test('getHistoryById should return null for non-existent id', () {
-      final retrieved = repository.getHistoryById('non-existent');
-      expect(retrieved, isNull);
+      await repository.deleteHistory('3');
+      expect(repository.getAllHistories().length, 0);
     });
   });
 }

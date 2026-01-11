@@ -18,6 +18,7 @@ class HistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final level = _getLevelFromPainLevel(history.level ?? 0);
     final levelColor = _getLevelColor(level);
+    final disease = history.getDisease();
 
     return Material(
       color: Colors.transparent,
@@ -49,9 +50,9 @@ class HistoryCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Symptom Name (Primary)
+                    // Disease Name (Primary)
                     Text(
-                      history.symptomName.name,
+                      disease?.name ?? history.diseaseName,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -61,47 +62,28 @@ class HistoryCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     
-                    // Body Part & Disease (Secondary)
-                    Row(
-                      children: [
-                        Icon(
-                          _getBodyPartIcon(history.bodyPart),
-                          size: 14,
-                          color: Colors.grey[600],
-                        ),
-                        const SizedBox(width: 4),
-                        Flexible(
-                          child: Text(
-                            history.bodyPart.name.toUpperCase(),
+                    // Body Part (Secondary)
+                    if (disease != null) ...[
+                      Row(
+                        children: [
+                          Icon(
+                            _getBodyPartIcon(disease.bodyPart),
+                            size: 14,
+                            color: Colors.grey[600],
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            disease.bodyPart.name.toUpperCase(),
                             style: TextStyle(
                               fontSize: 13,
                               color: Colors.grey[700],
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 8),
-                          width: 3,
-                          height: 3,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[400],
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        Flexible(
-                          child: Text(
-                            history.disease.name,
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.grey[700],
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                    ],
                     
                     // Pain Level Indicator
                     if (history.level != null) ...[
