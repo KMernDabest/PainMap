@@ -9,19 +9,19 @@ class CategoryCard extends StatelessWidget {
   const CategoryCard({super.key, required this.part, required this.isSelected, this.onTap});
 
 static IconData _iconForPart(BodyPart part) {
-  switch (part.icon) {
-    case 'face':
+  switch (part) {
+    case BodyPart.head:
       return Icons.face;
-    case 'handyman':
+    case BodyPart.rightArm:
+    case BodyPart.leftArm:
       return Icons.handyman;
-    case 'center_focus':
+    case BodyPart.abdomen:
       return Icons.center_focus_strong;
-    case 'directions_walk':
+    case BodyPart.rightLeg:
+    case BodyPart.leftLeg:
       return Icons.directions_walk;
-    case 'accessibility_new':
+    case BodyPart.back:
       return Icons.accessibility_new;
-    default:
-      return Icons.help_outline;
   }
 }
 

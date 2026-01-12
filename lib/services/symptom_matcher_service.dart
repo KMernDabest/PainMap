@@ -1,26 +1,24 @@
 import '../models/disease.dart';
+import '../models/body_part.dart';
+import '../repo/disease_list_data.dart';
 
 class SymptomMatcherService {
   /// Match disease by body part and pain level
-  Disease? matchDisease(int bodyPartId, int painLevel) {
-    try {
-      return Disease.diseaseList.firstWhere(
-        (disease) =>
-            disease.bodyPartId == bodyPartId &&
-            disease.painLevel == painLevel,
-      );
-    } catch (e) {
-      return null;
-    }
+  Disease? matchDisease(BodyPart bodyPart, int painLevel) {
+    return DiseaseRepository.findByBodyPartAndPainLevel(bodyPart, painLevel);
   }
 
-  // Get all diseases for a specific body part and pain level
-  // Originally intended to return multiple matches
-  List<Disease> getAllMatchingDiseases(int bodyPartId, int painLevel) {
-    return Disease.diseaseList
-        .where((disease) =>
-            disease.bodyPartId == bodyPartId &&
-            disease.painLevel == painLevel)
+  /// Get all diseases for a specific body part
+  List<Disease> getDiseasesByBodyPart(BodyPart bodyPart) {
+    return DiseaseRepository.getAllDiseases()
+        .where((disease) => disease.bodyPart == bodyPart)
+        .toList();
+  }
+
+  /// Get all diseases for a specific pain level
+  List<Disease> getDiseasesByPainLevel(int painLevel) {
+    return DiseaseRepository.getAllDiseases()
+        .where((disease) => disease.painLevel == painLevel)
         .toList();
   }
 }

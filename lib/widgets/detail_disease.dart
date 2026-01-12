@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/disease.dart';
 import '../widgets/info_section.dart';
-import '../widgets/symptom_list.dart';
 
 class DetailDisease extends StatelessWidget {
   final Disease disease;
@@ -37,7 +36,7 @@ class DetailDisease extends StatelessWidget {
                 borderRadius: BorderRadius.circular(18),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -49,7 +48,7 @@ class DetailDisease extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF2563EB).withOpacity(0.1),
+                      color: const Color(0xFF2563EB).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: const Icon(
@@ -79,36 +78,20 @@ class DetailDisease extends StatelessWidget {
             const SizedBox(height: 20),
 
             // Description
-            if (disease.description != null &&
-                disease.description!.isNotEmpty)
-              InfoSection(
-                title: 'Overview',
-                icon: Icons.info_outline,
-                child: Text(
-                  disease.description!,
-                  style: const TextStyle(
-                    fontSize: 14.5,
-                    height: 1.7,
-                    color: Color(0xFF475569),
-                  ),
+            InfoSection(
+              title: 'Overview',
+              icon: Icons.info_outline,
+              child: Text(
+                disease.description,
+                style: const TextStyle(
+                  fontSize: 14.5,
+                  height: 1.7,
+                  color: Color(0xFF475569),
                 ),
               ),
+            ),
 
             const SizedBox(height: 16),
-
-            // Symptoms
-            if (disease.symptomDetails != null &&
-                disease.symptomDetails!.isNotEmpty)
-              InfoSection(
-                title: 'Common Symptoms',
-                icon: Icons.medical_services_outlined,
-                child: SymptomList(
-                  symptoms: disease.symptomDetails!,
-                ),
-              ),
-
-            const SizedBox(height: 20),
-
 
             // Close Button
             ElevatedButton(
