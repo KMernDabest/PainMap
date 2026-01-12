@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:painmap/models/disease.dart';
+import 'package:painmap/repo/disease_list_data.dart';
 import 'package:painmap/widgets/detail_disease.dart';
 import 'package:painmap/widgets/disease_list_item.dart';
 import 'package:painmap/widgets/bottom_navigation.dart';
@@ -36,7 +37,7 @@ class _SearchScreenState extends State<SearchScreen> {
       _isLoading = true;
     });
 
-    _allDisease = Disease.diseaseList;
+    _allDisease = DiseaseRepository.getAllDiseases();
 
     if (widget.initialQuery != null) {
        _selectedPart = widget.initialQuery;
@@ -63,7 +64,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
         final matchesBodyPart =
             selectedBodyPart == null ||
-            disease.bodyPartId == selectedBodyPart.id;
+            disease.bodyPart == selectedBodyPart;
 
         return matchesText && matchesBodyPart;
       }).toList();

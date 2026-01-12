@@ -1,9 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:painmap/data/data_repository.dart';
+import 'package:painmap/repo/data_repository.dart';
 import 'package:painmap/models/history.dart';
-import 'package:painmap/models/symptom.dart';
-import 'package:painmap/models/disease.dart';
-import 'package:painmap/models/body_part.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -11,6 +8,7 @@ void main() {
 
   group('DataRepository Tests', () {
     late DataRepository repository;
+    final testDiseaseName = "Mild Sinus Pressure";
 
     setUp(() async {
       SharedPreferences.setMockInitialValues({});
@@ -25,11 +23,8 @@ void main() {
     test('addHistory should add history to repository', () async {
       final history = History(
         id: 'test-123',
-        symptomName: Symptom.symptomList.first,
-        disease: Disease.diseaseList.first,
-        bodyPart: BodyPart.head,
         dateLogged: DateTime.now(),
-        level: 5,
+        diseaseName: testDiseaseName,
         notes: 'Test',
       );
 
@@ -43,11 +38,8 @@ void main() {
     test('deleteHistory should remove history from repository', () async {
       final history = History(
         id: 'test-456',
-        symptomName: Symptom.symptomList.first,
-        disease: Disease.diseaseList.first,
-        bodyPart: BodyPart.head,
         dateLogged: DateTime.now(),
-        level: 3,
+        diseaseName: testDiseaseName,
       );
 
       await repository.addHistory(history);
@@ -62,11 +54,8 @@ void main() {
     test('getHistoryById should return correct history', () async {
       final history = History(
         id: 'test-getbyid',
-        symptomName: Symptom.symptomList.first,
-        disease: Disease.diseaseList.first,
-        bodyPart: BodyPart.head,
         dateLogged: DateTime.now(),
-        level: 5,
+        diseaseName: testDiseaseName,
       );
 
       await repository.addHistory(history);

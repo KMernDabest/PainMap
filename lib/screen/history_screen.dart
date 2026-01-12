@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:painmap/widgets/history_card.dart';
 import 'package:painmap/widgets/bottom_navigation.dart';
 import 'package:painmap/models/history.dart';
-import 'package:painmap/models/body_part.dart';
-import 'package:painmap/data/data_repository.dart';
+import 'package:painmap/repo/data_repository.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -14,7 +13,6 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   final int _currentIndex = 2; // History screen is at index 2
-  final String _filterLevel = 'All';
   final DataRepository _dataRepository = DataRepository();
   List<History> _histories = [];
   bool _isLoading = true;
@@ -66,20 +64,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   List<History> get _filteredHistories {
-    if (_filterLevel == 'All') return _histories;
-
-    return _histories.where((history) {
-      final level = _getLevelFromPainLevel(history.level ?? 0);
-      return level.name.toLowerCase() == _filterLevel.toLowerCase();
-    }).toList();
-  }
-
-  Level _getLevelFromPainLevel(int painLevel) {
-    if (painLevel == 0) return Level.none;
-    if (painLevel <= 2) return Level.low;
-    if (painLevel <= 4) return Level.mild;
-    if (painLevel <= 7) return Level.moderate;
-    return Level.severe;
+    return _histories;
   }
 
   @override
@@ -112,7 +97,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -126,7 +111,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF2563EB).withOpacity(0.1),
+                  color: const Color(0xFF2563EB).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
@@ -136,7 +121,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 ),
               ),
               const SizedBox(width: 12),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -187,13 +172,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: const Color(0xFF2563EB).withOpacity(0.1),
+              color: const Color(0xFF2563EB).withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.inbox_outlined,
               size: 64,
-              color: const Color(0xFF2563EB).withOpacity(0.5),
+              color: const Color(0xFF2563EB).withValues(alpha: 0.5),
             ),
           ),
           const SizedBox(height: 20),
@@ -225,8 +210,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   Widget _buildDetailModal(History history) {
-    final level = _getLevelFromPainLevel(history.level ?? 0);
-    final levelColor = _getLevelColor(level);
+    final disease = history.getDisease();
 
     return Container(
       padding: const EdgeInsets.all(24),
@@ -251,39 +235,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
           ),
           const SizedBox(height: 24),
 
-          // Symptom name with level badge
+          // Disease name
           Row(
             children: [
               Expanded(
                 child: Text(
-                  history.symptomName.name,
+                  history.diseaseName,
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF1E293B),
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: levelColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: levelColor.withOpacity(0.3),
-                    width: 1,
-                  ),
-                ),
-                child: Text(
-                  level.name.toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                    color: levelColor,
-                    letterSpacing: 0.5,
                   ),
                 ),
               ),
@@ -292,16 +253,18 @@ class _HistoryScreenState extends State<HistoryScreen> {
           const SizedBox(height: 16),
 
           // Details
-          _buildDetailRow(
-            Icons.person_outline,
-            'Body Part',
-            history.bodyPart.name.toUpperCase(),
-          ),
-          _buildDetailRow(
-            Icons.medical_services_outlined,
-            'Disease',
-            history.disease.name,
-          ),
+          if (disease != null) ...[
+            _buildDetailRow(
+              Icons.person_outline,
+              'Body Part',
+              disease.bodyPart.name.replaceAll('_', ' '),
+            ),
+            _buildDetailRow(
+              Icons.warning_amber_rounded,
+              'Pain Level',
+              '${disease.painLevel}/10',
+            ),
+          ],
           _buildDetailRow(
             Icons.calendar_today,
             'Date',
@@ -312,12 +275,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
             'Time',
             _formatTime(history.dateLogged),
           ),
-          if (history.level != null)
-            _buildDetailRow(Icons.speed, 'Pain Level', '${history.level}/10'),
 
           //Disease description
-          if (history.disease.description != null &&
-              history.disease.description!.isNotEmpty) ...[
+          if (disease != null && disease.description.isNotEmpty) ...[
             const SizedBox(height: 16),
             const Text(
               'About the Disease',
@@ -335,7 +295,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
-                history.disease.description!,
+                disease.description,
                 style: const TextStyle(
                   fontSize: 14,
                   color: Color(0xFF475569),
@@ -363,7 +323,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 color: const Color(0xFFFEF3C7),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: const Color(0xFFFBBF24).withOpacity(0.3),
+                  color: const Color(0xFFFBBF24).withValues(alpha: 0.3),
                 ),
               ),
               child: Row(
@@ -430,21 +390,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
         ],
       ),
     );
-  }
-
-  Color _getLevelColor(Level level) {
-    switch (level) {
-      case Level.severe:
-        return const Color(0xFFEF4444);
-      case Level.moderate:
-        return const Color(0xFFF59E0B);
-      case Level.mild:
-        return const Color(0xFFFBBF24);
-      case Level.low:
-        return const Color(0xFF10B981);
-      case Level.none:
-        return const Color(0xFF94A3B8);
-    }
   }
 
   String _formatDate(DateTime dateTime) {

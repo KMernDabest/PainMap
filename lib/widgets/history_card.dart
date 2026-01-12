@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:painmap/models/history.dart';
-import 'package:painmap/models/body_part.dart';
 
 class HistoryCard extends StatelessWidget {
   final History history;
@@ -16,8 +15,7 @@ class HistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final level = _getLevelFromPainLevel(history.level ?? 0);
-    final levelColor = _getLevelColor(level);
+    final disease = history.getDisease();
 
     return Material(
       color: Colors.transparent,
@@ -31,7 +29,7 @@ class HistoryCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: Colors.black.withValues(alpha: 0.04),
                 blurRadius: 10,
                 offset: const Offset(0, 2),
               ),
@@ -40,8 +38,23 @@ class HistoryCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Severity Badge
-              _buildLevelBadge(level, levelColor),
+              // Disease Icon
+              if (disease != null)
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: _getPainLevelColor(disease.painLevel).withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.medical_services_outlined,
+                      color: _getPainLevelColor(disease.painLevel),
+                      size: 24,
+                    ),
+                  ),
+                ),
               const SizedBox(width: 16),
               
               // Content
@@ -49,9 +62,9 @@ class HistoryCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Symptom Name (Primary)
+                    // Disease Name (Primary)
                     Text(
-                      history.symptomName.name,
+                      history.diseaseName,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -61,100 +74,86 @@ class HistoryCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     
-                    // Body Part & Disease (Secondary)
-                    Row(
-                      children: [
-                        Icon(
-                          _getBodyPartIcon(history.bodyPart),
-                          size: 14,
-                          color: Colors.grey[600],
-                        ),
-                        const SizedBox(width: 4),
-                        Flexible(
-                          child: Text(
-                            history.bodyPart.name.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.grey[700],
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 8),
-                          width: 3,
-                          height: 3,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[400],
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        Flexible(
-                          child: Text(
-                            history.disease.name,
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.grey[700],
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    
-                    // Pain Level Indicator
-                    if (history.level != null) ...[
+                    // Body Part & Pain Level (Secondary)
+                    if (disease != null)
                       Row(
                         children: [
+                          Icon(
+                            Icons.person_outline,
+                            size: 14,
+                            color: Colors.grey[600],
+                          ),
+                          const SizedBox(width: 4),
+                          Flexible(
+                            child: Text(
+                              disease.bodyPart.name.replaceAll('_', ' '),
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.grey[700],
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 8),
+                            width: 3,
+                            height: 3,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[400],
+                              shape: BoxShape.circle,
+                            ),
+                          ),
                           Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 8,
                               vertical: 3,
                             ),
                             decoration: BoxDecoration(
-                              color: levelColor.withOpacity(0.1),
+                              color: _getPainLevelColor(disease.painLevel).withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(
-                                  Icons.speed,
+                                  Icons.warning_amber_rounded,
                                   size: 12,
-                                  color: levelColor,
+                                  color: _getPainLevelColor(disease.painLevel),
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  '${history.level}/10',
+                                  '${disease.painLevel}/10',
                                   style: TextStyle(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w600,
-                                    color: levelColor,
+                                    color: _getPainLevelColor(disease.painLevel),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          // Date & Time (Tertiary)
-                          Icon(
-                            Icons.access_time,
-                            size: 13,
-                            color: Colors.grey[500],
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            _getTimeAgo(history.dateLogged),
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey[600],
-                            ),
-                          ),
                         ],
                       ),
-                      const SizedBox(height: 4),
-                    ],
+                    const SizedBox(height: 8),
+                    
+                    // Date & Time
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.access_time,
+                          size: 13,
+                          color: Colors.grey[500],
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          _getTimeAgo(history.dateLogged),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -185,82 +184,12 @@ class HistoryCard extends StatelessWidget {
     );
   }
 
-  Widget _buildLevelBadge(Level level, Color levelColor) {
-    IconData icon;
-    
-    switch (level) {
-      case Level.severe:
-        icon = Icons.warning_rounded;
-        break;
-      case Level.moderate:
-        icon = Icons.info;
-        break;
-      case Level.mild:
-        icon = Icons.error_outline;
-        break;
-      case Level.low:
-        icon = Icons.check_circle;
-        break;
-      case Level.none:
-        icon = Icons.remove_circle_outline;
-        break;
-    }
-
-    return Container(
-      width: 48,
-      height: 48,
-      decoration: BoxDecoration(
-        color: levelColor.withOpacity(0.1),
-        shape: BoxShape.circle,
-      ),
-      child: Center(
-        child: Icon(
-          icon,
-          color: levelColor,
-          size: 24,
-        ),
-      ),
-    );
-  }
-
-  IconData _getBodyPartIcon(BodyPart bodyPart) {
-    switch (bodyPart) {
-      case BodyPart.head:
-        return Icons.face;
-      case BodyPart.leftArm:
-      case BodyPart.rightArm:
-        return Icons.handyman;
-      case BodyPart.abdomen:
-        return Icons.center_focus_strong;
-      case BodyPart.leftLeg:
-      case BodyPart.rightLeg:
-        return Icons.directions_walk;
-      case BodyPart.back:
-        return Icons.accessibility_new;
-    }
-  }
-
-  Level _getLevelFromPainLevel(int painLevel) {
-    if (painLevel == 0) return Level.none;
-    if (painLevel <= 2) return Level.low;
-    if (painLevel <= 4) return Level.mild;
-    if (painLevel <= 7) return Level.moderate;
-    return Level.severe;
-  }
-
-  Color _getLevelColor(Level level) {
-    switch (level) {
-      case Level.severe:
-        return const Color(0xFFEF4444);
-      case Level.moderate:
-        return const Color(0xFFF59E0B);
-      case Level.mild:
-        return const Color(0xFFFBBF24);
-      case Level.low:
-        return const Color(0xFF10B981);
-      case Level.none:
-        return const Color(0xFF94A3B8);
-    }
+  Color _getPainLevelColor(int painLevel) {
+    if (painLevel <= 2) return const Color(0xFF10B981);
+    if (painLevel <= 4) return const Color(0xFFFBBF24);
+    if (painLevel <= 6) return const Color(0xFFF59E0B);
+    if (painLevel <= 8) return const Color(0xFFEF4444);
+    return const Color(0xFFDC2626);
   }
 
   String _getTimeAgo(DateTime dateTime) {
