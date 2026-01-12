@@ -438,26 +438,6 @@ class DiseaseRepository {
     ),
   ];
 
-  static Disease? findByBodyPartAndPainLevel(BodyPart bodyPart, int painLevel) {
-    try {
-      return _diseases.firstWhere(
-        (disease) => disease.bodyPart == bodyPart && disease.painLevel == painLevel,
-      );
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Disease? findByName(String name) {
-    try {
-      return _diseases.firstWhere(
-        (disease) => disease.name.toLowerCase() == name.toLowerCase(),
-      );
-    } catch (e) {
-      return null;
-    }
-  }
-
   static List<Disease> getAllDiseases() {
     return List.unmodifiable(_diseases);
   }

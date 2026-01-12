@@ -1,5 +1,5 @@
 import 'package:painmap/models/disease.dart';
-import 'package:painmap/repo/disease_list_data.dart';
+import 'package:painmap/services/symptom_matcher_service.dart';
 
 class History {
   final String id;
@@ -15,7 +15,7 @@ class History {
   });
 
   Disease? getDisease() {
-    return DiseaseRepository.findByName(diseaseName);
+    return SymptomMatcherService().findByName(diseaseName);
   }
 
   factory History.fromJson(Map<String, dynamic> json) {
